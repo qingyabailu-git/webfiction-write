@@ -1,10 +1,10 @@
 ---
-name: novel-revise
+name: fiction-revise
 description: |
   章节修改。支持三种模式：Polish（润色表达，不改事实）、Re-craft（改事实但主干不变，
   自动传播到后续章节和设定）、Rewrite（整章重写，全链路刷新合同和数据层）。
   系统自动检测修改类型并推荐模式。
-  触发方式：/novel-revise {章号或范围}、「修改第X章」「重写」「回炉」「改设定」。
+  触发方式：/fiction-revise {章号或范围}、「修改第X章」「重写」「回炉」「改设定」。
 ---
 
 # novel-revise：章节修改

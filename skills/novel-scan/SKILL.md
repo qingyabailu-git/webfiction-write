@@ -1,9 +1,9 @@
 ---
-name: novel-scan
+name: fiction-scan
 description: |
   网文扫榜。分析起点、番茄、晋江等平台排行榜数据，提炼市场趋势与热门题材。
   按题材/篇幅路由到对应的分析管线。支持长篇和短篇。
-  触发方式：/novel-scan、「扫榜」「排行」「什么火」「趋势」「选题」。
+  触发方式：/fiction-scan、「扫榜」「排行」「什么火」「趋势」「选题」。
 ---
 
 # novel-scan：网文扫榜
@@ -58,7 +58,7 @@ description: |
 ## 使用示例
 
 ```
-> /novel-scan 番茄 畅销榜 都市
+> /fiction-scan 番茄 畅销榜 都市
 
 📊 正在采集番茄小说畅销榜数据（都市分类）...
 
@@ -115,10 +115,10 @@ description: |
 先用 browser-cdp 技能启动 Chrome 调试模式，再运行爬虫脚本：
 ```bash
 # 1. 启动/检测 CDP
-node skills/novel-scan/scripts/cdp-utils.js 9222 --detect
+node skills/fiction-scan/scripts/cdp-utils.js 9222 --detect
 
 # 2. 运行爬虫（以番茄为例）
-node skills/novel-scan/scripts/fanqie-rank-scraper.js \
+node skills/fiction-scan/scripts/fanqie-rank-scraper.js \
   --url "https://fanqienovel.com/rank" \
   --output "扫榜分析/{日期}_番茄畅销榜.md"
 ```
@@ -126,7 +126,7 @@ node skills/novel-scan/scripts/fanqie-rank-scraper.js \
 **方式 B：HTTP 直连模式（备用，无需 CDP）**
 直接用 Node.js https 模块抓取：
 ```bash
-SCRIPTS_DIR=skills/novel-scan/scripts
+SCRIPTS_DIR=skills/fiction-scan/scripts
 node -e "
 const https = require('https');
 https.get('https://api.fanqienovel.com/api/rank/list', (res) => {
@@ -168,7 +168,7 @@ https.get('https://api.fanqienovel.com/api/rank/list', (res) => {
 
 ## 使用示例
 ```
-> /novel-scan 番茄 畅销榜 都市
+> /fiction-scan 番茄 畅销榜 都市
 
 📊 正在采集番茄小说畅销榜数据（都市分类）...
 ✅ 扫榜分析报告已生成：扫榜分析/2026-06-15_番茄畅销榜-都市.md
@@ -176,7 +176,7 @@ https.get('https://api.fanqienovel.com/api/rank/list', (res) => {
 ```
 
 ## 参考
-爬虫脚本位置：`skills/novel-scan/scripts/`
+爬虫脚本位置：`skills/fiction-scan/scripts/`
 支持的脚本：
 - `fanqie-rank-scraper.js` — 番茄小说
 - `qidian-rank-scraper.js` — 起点中文网

@@ -1,9 +1,9 @@
 ---
-name: novel-setup
+name: fiction-setup
 description: |
   网络小说项目初始化。创建标准项目目录结构、初始配置文件(state.json)、
   设定集骨架。在进入构思(novel-conceive)前运行。
-  触发方式：/novel-setup、「建项目」「初始化」「准备写书」「搭环境」。
+  触发方式：/fiction-setup、「建项目」「初始化」「准备写书」「搭环境」。
 ---
 
 # novel-setup：项目初始化

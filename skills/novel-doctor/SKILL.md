@@ -1,9 +1,9 @@
 ---
-name: novel-doctor
+name: fiction-doctor
 description: |
   项目体检诊断。只读检查项目目录、文件、JSON、合同体系完整性。
   发现缺失或异常项时解释影响和修复建议，不自动修复。
-  触发方式：/novel-doctor、「体检」「诊断」「检查项目」「项目状态」。
+  触发方式：/fiction-doctor、「体检」「诊断」「检查项目」「项目状态」。
 ---
 
 # novel-doctor：项目体检诊断
@@ -57,7 +57,7 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${WORKSPACE_ROOT}" doct
 ### 使用示例
 
 ```
-> /novel-doctor
+> /fiction-doctor
 
 体检报告
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -84,7 +84,7 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${WORKSPACE_ROOT}" doct
 ```
 
 ```
-> /novel-doctor --deep
+> /fiction-doctor --deep
 
 体检报告（深度）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

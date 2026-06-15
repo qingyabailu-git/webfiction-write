@@ -1,10 +1,10 @@
 ---
-name: novel-write
+name: fiction-write
 description: |
   正文写作。支持 Normal（标准四步）和 Deep（完整六步+合同同步+data-agent）双模式。
   系统自动检测模式并提示用户确认。每章写完自动检测里程碑节点弹出建议。
   写作前自动检查章纲是否存在，不存在则阻断。
-  触发方式：/novel-write {章号}、「写第X章」「续写」「继续写」「日更」。
+  触发方式：/fiction-write {章号}、「写第X章」「续写」「继续写」「日更」。
 ---
 
 # novel-write：正文写作

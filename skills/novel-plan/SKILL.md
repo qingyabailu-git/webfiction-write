@@ -1,10 +1,10 @@
 ---
-name: novel-plan
+name: fiction-plan
 description: |
   小说规划系统。基于总纲生成卷节拍表、卷时间线和章细纲（滚动式）。
   每卷写前做一次卷规划，每 10 章写完后系统提示补下一批细纲。
   执行后同步 Story System 合同。
-  触发方式：/novel-plan {卷号或章范围}、「规划第X卷」「补细纲」「做大纲」「规划」。
+  触发方式：/fiction-plan {卷号或章范围}、「规划第X卷」「补细纲」「做大纲」「规划」。
 ---
 
 # novel-plan：小说规划

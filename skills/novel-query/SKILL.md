@@ -1,9 +1,9 @@
 ---
-name: novel-query
+name: fiction-query
 description: |
   查询项目设定、角色、力量体系、势力、伏笔等信息。支持角色历史状态、实体关系、
   世界规则、伏笔/open-loop 查询。只读操作，不修改任何项目文件。
-  触发方式：/novel-query {查询内容}、「查角色」「查伏笔」「查设定」「什么状态」。
+  触发方式：/fiction-query {查询内容}、「查角色」「查伏笔」「查设定」「什么状态」。
 ---
 
 # novel-query：信息查询
@@ -91,7 +91,7 @@ Strand 模式分析来自 strand-weave-pattern 参考。
 以上参考按查询类型按需加载，不预读。
 参考路径规则：`references/` 指 skill 私有，`shared/` 指全局共享。
 当前版本私有参考目录暂无，先按上述硬编码查询路径。
-私有参考在增加时放在 `skills/novel-query/references/` 下。
+私有参考在增加时放在 `skills/fiction-query/references/` 下。
 全局共享参考从 `story-*` 或 `webnovel-*` 系列引用路径复制。
 ```
 novel-query/            # 本技能目录
@@ -111,7 +111,7 @@ memory-contract 查询的 schema 由 novel.py 脚本定义，本 skill 不另行
 ## 使用示例
 
 ```
-> /novel-query 沈夜在第 10 章时的境界
+> /fiction-query 沈夜在第 10 章时的境界
 
 查询结果：沈夜
 
@@ -128,7 +128,7 @@ memory-contract 查询的 schema 由 novel.py 脚本定义，本 skill 不另行
 ---
 
 ```
-> /novel-query 未回收的伏笔
+> /fiction-query 未回收的伏笔
 
 查询结果：未回收伏笔
 
@@ -145,7 +145,7 @@ memory-contract 查询的 schema 由 novel.py 脚本定义，本 skill 不另行
 ---
 
 ```
-> /novel-query 世界观/力量体系
+> /fiction-query 世界观/力量体系
 
 查询结果：力量体系
 

@@ -1,9 +1,9 @@
 ---
-name: novel-analyze
+name: fiction-analyze
 description: |
   网文拆解。分析爆款小说的结构、人设、爽点、节奏等。
   自动按篇幅路由到长篇或短篇拆解管线。输出结构化分析报告。
-  触发方式：/novel-analyze、「拆书」「拆文」「分析这本书」「深度拆解」。
+  触发方式：/fiction-analyze、「拆书」「拆文」「分析这本书」「深度拆解」。
 ---
 
 # novel-analyze：网文拆解
@@ -89,7 +89,7 @@ description: |
 ### 使用示例
 
 ```
-> /novel-analyze 庆余年
+> /fiction-analyze 庆余年
 
 📖 检测到长篇，进入黄金三章分析...
 分析完成！

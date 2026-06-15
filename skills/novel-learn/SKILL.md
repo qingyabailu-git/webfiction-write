@@ -1,10 +1,10 @@
 ---
-name: novel-learn
+name: fiction-learn
 description: |
   从当前会话提取成功写作模式并写入 project_memory.json。
   类型包括：hook/pacing/dialogue/payoff/emotion/format/other。
   后续写作时自动参考已积累的模式。
-  触发方式：/novel-learn {写作经验描述}、「记住这个写法」「学习」「这个写法好」。
+  触发方式：/fiction-learn {写作经验描述}、「记住这个写法」「学习」「这个写法好」。
 ---
 
 # novel-learn：写作模式提取

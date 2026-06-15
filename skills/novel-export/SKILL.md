@@ -1,9 +1,9 @@
 ---
-name: novel-export
+name: fiction-export
 description: |
   导出与完本归档。合并所有正文为 .txt/.docx 格式，
   可选去格式、加目录、生成封面。完本后一键归档项目文件。
-  触发方式：/novel-export、「导出」「完本」「归档」「下载」。
+  触发方式：/fiction-export、「导出」「完本」「归档」「下载」。
 ---
 
 # novel-export：导出与完本归档
@@ -48,13 +48,13 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" export archive \
 ## 使用示例
 
 ```
-> /novel-export --format docx
+> /fiction-export --format docx
 
 ✅ 已导出：导出/剑来_完本.docx（45 章，12.3 万字）
 ```
 
 ```
-> /novel-export --archive
+> /fiction-export --archive
 
 ✅ 已归档：归档/剑来_完本归档.zip
 包含：正文/设定集/大纲/追踪/合同
@@ -63,7 +63,7 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" export archive \
 
 ## 参考
 
-合并脚本由 `scripts/novel.py` 的 `export merge` 和 `export archive` 子命令处理。
+合并脚本由 `scripts/fiction.py` 的 `export merge` 和 `export archive` 子命令处理。
 完本归档后，项目目录可移出活跃工作区。
 如需继续写新书，运行 novel-setup 初始化新项目。
 如果使用 `.docx` 格式，依赖 Documents 插件的 docx-js 库。

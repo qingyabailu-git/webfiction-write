@@ -1,9 +1,9 @@
 ---
-name: novel-review
+name: fiction-review
 description: |
   质量审查。使用 reviewer agent 评估章节质量，生成审查报告并写回审查指标。
   支持单章、批量（1-5）、整卷（--volume N）审查。
-  触发方式：/novel-review {章号或范围}、「审查」「审一下」「检查质量」「review」。
+  触发方式：/fiction-review {章号或范围}、「审查」「审一下」「检查质量」「review」。
 ---
 
 # novel-review：质量审查

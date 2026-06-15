@@ -1,10 +1,10 @@
 ---
-name: novel-start
+name: fiction-start
 description: |
   正式开书。运行开书前检查清单，确认构思充分后锁定基线、初始化 Story System 合同。
   开书后设定集锁定为基线，修改需走 novel-revise 变更传播流程。
   开书前不支持写正文。
-  触发方式：/novel-start、「开书」「正式开始」「锁定基线」「开始写作」。
+  触发方式：/fiction-start、「开书」「正式开始」「锁定基线」「开始写作」。
 ---
 
 # novel-start：正式开书
@@ -110,5 +110,5 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" story-system init \
 
 ## 参考
 
-Story System 合同初始化由 `scripts/novel.py` 的 `story-system init` 子命令完成。
+Story System 合同初始化由 `scripts/fiction.py` 的 `story-system init` 子命令完成。
 合同刷新由 novel-plan 和 novel-write 负责，start 只做初始建立。

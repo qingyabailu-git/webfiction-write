@@ -1,9 +1,9 @@
 ---
-name: novel-conceive
+name: fiction-conceive
 description: |
   小说构思与共创。引导用户与 AI 共同打磨小说核心构思，包括题材定位、角色设计、
   世界观框架、核心冲突、文风定位等。在正式开书(novel-start)前完成。
-  触发方式：/novel-conceive、「聊聊构思」「帮我打磨设定」「讨论主角」
+  触发方式：/fiction-conceive、「聊聊构思」「帮我打磨设定」「讨论主角」
   「文风讨论」「构思共创」。
 ---
 

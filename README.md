@@ -3,7 +3,7 @@
 > [oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
 > 两个开源项目。在此对原项目作者表示感谢。
 
-# novel - 网文创作工具集
+# web-fiction - 网文创作工具集
 
 基于 Codex 的网络小说创作工具集，从构思到完本的完整工作流。
 面向番茄小说等免费阅读平台，以情绪驱动的写作方法论为核心。
@@ -20,24 +20,24 @@
 | 技能 | 功能 | 阶段 |
 |------|------|------|
 | **novel** | 主入口路由，分发到子技能 | 全局 |
-| **novel-conceive** | 构思共创：与 AI 讨论打磨核心构思 | 准备 |
-| **novel-setup** | 初始化标准项目目录结构 | 准备 |
-| **novel-start** | 正式开书：检查清单 → 锁基线 → 初始化合同 | 锁定 |
-| **novel-scan** | 扫榜：分析平台排行榜找热门题材 | 参考 |
-| **novel-analyze** | 拆文：拆解爆款小说结构和写法 | 参考 |
-| **novel-plan** | 规划：卷节拍表 → 卷时间线 → 章细纲（滚动） | 写作前 |
-| **novel-write** | 正文写作（Normal/Deep 双模式） | 核心 |
-| **novel-revise** | 章节修改（Polish/Re-craft/Rewrite 三档） | 写作后 |
-| **novel-review** | 质量审查（单章/批量/整卷） | 质量 |
-| **novel-polish** | 润色与去 AI 味 | 质量 |
-| **novel-query** | 查询设定、角色、伏笔等信息 | 全局 |
-| **novel-learn** | 提取成功写作模式到 project_memory | 全局 |
-| **novel-switch** | 多书切换 | 管理 |
-| **novel-doctor** | 项目体检诊断 | 管理 |
-| **novel-export** | 正文导出与完本归档 | 收尾 |
-| **novel-dashboard** | 本地只读管理面板 | 管理 |
-| **novel-cover** | AI 生成小说封面 | 辅助 |
-| **novel-import** | 导入已有小说到标准结构 | 辅助 |
+| **fiction-conceive** | 构思共创：与 AI 讨论打磨核心构思 | 准备 |
+| **fiction-setup** | 初始化标准项目目录结构 | 准备 |
+| **fiction-start** | 正式开书：检查清单 → 锁基线 → 初始化合同 | 锁定 |
+| **fiction-scan** | 扫榜：分析平台排行榜找热门题材 | 参考 |
+| **fiction-analyze** | 拆文：拆解爆款小说结构和写法 | 参考 |
+| **fiction-plan** | 规划：卷节拍表 → 卷时间线 → 章细纲（滚动） | 写作前 |
+| **fiction-write** | 正文写作（Normal/Deep 双模式） | 核心 |
+| **fiction-revise** | 章节修改（Polish/Re-craft/Rewrite 三档） | 写作后 |
+| **fiction-review** | 质量审查（单章/批量/整卷） | 质量 |
+| **fiction-polish** | 润色与去 AI 味 | 质量 |
+| **fiction-query** | 查询设定、角色、伏笔等信息 | 全局 |
+| **fiction-learn** | 提取成功写作模式到 project_memory | 全局 |
+| **fiction-switch** | 多书切换 | 管理 |
+| **fiction-doctor** | 项目体检诊断 | 管理 |
+| **fiction-export** | 正文导出与完本归档 | 收尾 |
+| **fiction-dashboard** | 本地只读管理面板 | 管理 |
+| **fiction-cover** | AI 生成小说封面 | 辅助 |
+| **fiction-import** | 导入已有小说到标准结构 | 辅助 |
 
 ## 安装
 
@@ -53,39 +53,39 @@ Copy-Item -Path "skills/*" -Destination "$env:USERPROFILE\.codex\skills\" -Recur
 
 ### 依赖
 
-- Python 3.8+（可选，用于 `scripts/novel.py` 后端脚本）
+- Python 3.8+（可选，用于 `scripts/fiction.py` 后端脚本）
 - 扫榜功能需要 `browser-cdp` skill（可选）
 - Dashboard 需要 webnovel-dashboard 的后端模块（可选）
 
 ## 快速开始
 
 ```text
-/novel-setup          # 1. 创建项目骨架
-/novel-conceive       # 2. 和 AI 聊聊你的小说构思
-/novel-start          # 3. 正式开书
-/novel-plan 1         # 4. 规划第 1 卷
-/novel-write 1        # 5. 写第 1 章（系统自动选 Deep 模式）
+/fiction-setup          # 1. 创建项目骨架
+/fiction-conceive       # 2. 和 AI 聊聊你的小说构思
+/fiction-start          # 3. 正式开书
+/fiction-plan 1         # 4. 规划第 1 卷
+/fiction-write 1        # 5. 写第 1 章（系统自动选 Deep 模式）
 ```
 
 ## 完整工作流
 
 ```text
-novel-setup    → 初始化项目骨架
+fiction-setup    → 初始化项目骨架
      ↓
-novel-conceive → 构思共创：题材/主角/冲突/文风
+fiction-conceive → 构思共创：题材/主角/冲突/文风
      ↓  （可穿插扫榜/拆文）
-novel-start    → 检查清单 → 锁基线 → 初始化合同
+fiction-start    → 检查清单 → 锁基线 → 初始化合同
      ↓
-novel-plan     → 卷节拍表 → 卷时间线 → 章细纲（滚动）
+fiction-plan     → 卷节拍表 → 卷时间线 → 章细纲（滚动）
      ↓
-novel-write    → 写作循环（每章自动检测模式 + 里程碑提示）
+fiction-write    → 写作循环（每章自动检测模式 + 里程碑提示）
      ↓
-novel-revise   → 修改（改事实自动传播到后续章节）
+fiction-revise   → 修改（改事实自动传播到后续章节）
      ↓
-novel-review   → 审查（单章/批量/整卷）
-novel-polish   → 润色与去 AI 味
+fiction-review   → 审查（单章/批量/整卷）
+fiction-polish   → 润色与去 AI 味
      ↓
-novel-export   → 完本导出
+fiction-export   → 完本导出
 ```
 
 ## 关键设计
