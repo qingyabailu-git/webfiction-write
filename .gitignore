@@ -8,7 +8,6 @@ __pycache__/
 *.pyc
 *.pyo
 # Test
-.story-system/
 test_run/
 导出/
 tmp/
@@ -19,9 +18,13 @@ _analysis.json
 # Test data (novel files)
 *.txt
 # Runtime artifacts
+example/
+# Development temp files
+_batch*.py
+_batch*.utf16
+# User project test data
+大纲/
+设定集/
 .novel/
 .story-system/
-example/
-导出/
-tmp/
-test_run/
+.ssh_temp/

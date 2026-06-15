@@ -1,6 +1,6 @@
 # 文风协议
 
-> **何时加载**：story-long-analyze Stage 6 执行前。下游写作 skill 直接读 `文风.md`，不加载本协议。
+> **何时加载**：fiction-analyze Stage 6 执行前。下游写作 skill 直接读 `文风.md`，不加载本协议。
 
 ## 产物定义
 
@@ -15,7 +15,7 @@
 ## 文件路径
 
 - **写**：`拆文库/{书名}/文风.md`（analyze 独占）
-- **读**：story-import 同步到 `{项目}/对标/{书名}/文风.md`；story-long-write 读项目对标视图（回退拆文库）
+- **读**：fiction-import 同步到 `{项目}/对标/{书名}/文风.md`；fiction-write 读项目对标视图（回退拆文库）
 
 ## 字数预算
 

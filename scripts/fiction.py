@@ -2,9 +2,19 @@ import argparse, json, os
 from pathlib import Path
 from datetime import datetime
 def root(start):
-    c=Path(start).resolve()
-    for p in [c]+list(c.parents):
-        if (p/".novel"/"state.json").exists():return p
+    c = Path(start).resolve()
+    novel_dir = c / ".novel"
+    state_file = novel_dir / "state.json"
+    if state_file.exists():
+        return c
+    for child in sorted(c.iterdir()):
+        if child.is_dir():
+            child_state = child / ".novel" / "state.json"
+            if child_state.exists():
+                return child
+    novel_dir.mkdir(parents=True, exist_ok=True)
+    init_state = {"project": {"book_name": "", "genre": ""}, "progress": {}, "versions": {"baseline_version": 1}}
+    state_file.write_text(json.dumps(init_state, ensure_ascii=False, indent=2), "utf-8")
     return c
 def load_state(r):
     f=r/".novel"/"state.json"
@@ -23,18 +33,33 @@ def cmd_status(a):
     print("genre:",pi.get("genre","?"))
     print("writing_started:",pr.get("writing_started",False))
 def cmd_doctor(a):
-    r=root(Path(a.project_root));issues=[]
-    for p in [".novel/state.json","设定集/主角卡.md","设定集/世界观.md","大纲/总纲.md"]:
-        if not (r/p).exists():issues.append("missing: "+p)
-    td=r/"正文"
-    if td.exists():
-        chs=sorted(td.glob("第*.md"))
-        if chs:print("chapters:",len(chs))
-    for t in ["追踪/上下文.md","追踪/伏笔.md","追踪/时间线.md","追踪/角色状态.md"]:
-        if not (r/t).exists():issues.append("missing: "+t)
-    if issues:
-        for i in issues:print(i)
-    else:print("project structure OK")
+    r = root(Path(a.project_root))
+    issues = []
+    try:
+        checks = [r / ".novel" / "state.json",
+                  r / "设定集" / "主角卡.md",
+                  r / "设定集" / "世界观.md",
+                  r / "大纲" / "总纲.md"]
+        for p in checks:
+            if not p.exists():
+                issues.append(f"missing: {p.relative_to(r)}")
+        td = r / "正文"
+        if td.exists():
+            chs = sorted(td.glob("第*.md"))
+            if chs:
+                print(f"chapters: {len(chs)}")
+        tracks = ["追踪/上下文.md", "追踪/伏笔.md", "追踪/时间线.md", "追踪/角色状态.md"]
+        for t in tracks:
+            if not (r / t).exists():
+                issues.append(f"missing: {t}")
+        if issues:
+            for i in issues:
+                print(i)
+        else:
+            print("project structure OK")
+    except Exception as e:
+        print(f"diagnose error: {e}")
+        print("tip: check if project files contain special characters")
 def cmd_contract(a):
     r=root(Path(a.project_root));s=load_state(r)
     pi=s.get("project",s.get("project_info",{}))
