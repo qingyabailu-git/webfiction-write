@@ -28,10 +28,10 @@ export WORKSPACE_ROOT="${CLAUDE_PROJECT_DIR:-$PWD}"
 export SCRIPTS_DIR="${CLAUDE_PLUGIN_ROOT:?}/scripts"
 
 # 短状态
-python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" project-status --format summary
+python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" project-status
 
 # 标准体检
-python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" doctor --format text
+python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" doctor
 
 # 指定章节（可选）
 # python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" doctor --chapter {N} --deep
@@ -98,7 +98,3 @@ python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" do
   建议：运行 fiction-export characters 检查清单，或手动补卡
 ...
 ```
-
-<!-- fiction-doctor: ��Ŀ��� �� ����ļ��ṹ��ױ������� -->
-
-<!-- review-fix: fiction-doctor-��Ŀ��� -->
