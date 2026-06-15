@@ -1,0 +1,6 @@
+﻿interface:
+  display_name: "novel-export - 导出归档"
+  short_description: "正文合并导出与完本归档"
+  default_prompt: "使用 $novel-export 导出小说正文"
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+﻿interface:
+  display_name: "novel-switch - 多书切换"
+  short_description: "切换当前活跃小说"
+  default_prompt: "使用 $novel-switch 切换小说"
+policy:
+  allow_implicit_invocation: true

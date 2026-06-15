@@ -1,0 +1,6 @@
+﻿interface:
+  display_name: "novel-review - 质量审查"
+  short_description: "章节质量审查与指标落库"
+  default_prompt: "使用 $novel-review 审查章节质量"
+policy:
+  allow_implicit_invocation: true

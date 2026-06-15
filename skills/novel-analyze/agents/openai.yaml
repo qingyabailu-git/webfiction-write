@@ -1,0 +1,6 @@
+﻿interface:
+  display_name: "novel-analyze - 网文拆解"
+  short_description: "拆解爆款小说的结构和写法"
+  default_prompt: "使用 $novel-analyze 拆解参考书"
+policy:
+  allow_implicit_invocation: true

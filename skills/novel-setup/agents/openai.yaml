@@ -1,0 +1,6 @@
+interface:
+  display_name: "novel-setup - 项目初始化"
+  short_description: "创建网文项目的标准目录结构"
+  default_prompt: "使用 $novel-setup 初始化我的小说项目"
+policy:
+  allow_implicit_invocation: true

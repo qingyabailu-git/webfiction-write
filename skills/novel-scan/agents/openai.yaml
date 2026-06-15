@@ -1,0 +1,6 @@
+﻿interface:
+  display_name: "novel-scan - 网文扫榜"
+  short_description: "分析排行榜数据找热门题材"
+  default_prompt: "使用 $novel-scan 查看番茄平台趋势"
+policy:
+  allow_implicit_invocation: true

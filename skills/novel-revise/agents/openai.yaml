@@ -1,0 +1,6 @@
+﻿interface:
+  display_name: "novel-revise - 章节修改"
+  short_description: "Polish/Re-craft/Rewrite 三档修改"
+  default_prompt: "使用 $novel-revise 修改已写章节"
+policy:
+  allow_implicit_invocation: true

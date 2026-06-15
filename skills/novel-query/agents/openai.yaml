@@ -1,0 +1,6 @@
+﻿interface:
+  display_name: "novel-query - 信息查询"
+  short_description: "查询设定、角色、伏笔等信息"
+  default_prompt: "使用 $novel-query 查询小说设定"
+policy:
+  allow_implicit_invocation: true

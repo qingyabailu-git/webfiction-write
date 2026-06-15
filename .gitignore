@@ -1,0 +1,15 @@
+﻿# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Test artifacts
+.story-system/
+导出/
+tmp/

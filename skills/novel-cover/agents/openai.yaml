@@ -1,0 +1,6 @@
+﻿interface:
+  display_name: "novel-cover - 封面生成"
+  short_description: "AI 生成小说封面"
+  default_prompt: "使用 $novel-cover 生成小说封面"
+policy:
+  allow_implicit_invocation: true
