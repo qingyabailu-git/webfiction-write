@@ -26,14 +26,11 @@ description: |
 | 润色/去AI味 | 润色、去AI味、格式、标点 | `novel-polish` |
 | 查设定/进度 | 查角色、查伏笔、查进度、什么状态 | `novel-query` |
 | 提取模式 | 记住这个写法、学习 | `novel-learn` |
-| 切书/列书 | 切书、换书、列书、切换项目 | `novel-switch` |
 | 体检诊断 | 体检、诊断、检查项目 | `novel-doctor` |
 | 导出/归档 | 导出、完本、归档 | `novel-export` |
-| 封面 | 封面、封面图 | `novel-cover` |
 | 扫榜 | 排行、什么火、趋势 | `novel-scan` |
 | 拆文 | 拆书、拆文、分析这本书 | `novel-analyze` |
 | 导入小说 | 导入、反向解析 | `novel-import` |
-| Dashboard | 面板、状态面板 | `novel-dashboard` |
 
 ## 路由流程
 
