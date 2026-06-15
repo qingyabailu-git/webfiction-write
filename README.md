@@ -40,13 +40,24 @@
 
 ## 安装
 
-将 `skills/` 目录复制到你的 Codex 技能目录：
+将 `skills/` 目录安装到 Codex 技能目录，推荐让 AI 自动处理：
+
+### 方式一：让 AI 安装（推荐）
+
+克隆项目后，对 Codex 说：
+
+> 「请把我项目里 skills/ 目录下的技能安装到 Codex」
+
+AI 会自动完成安装。
+
+### 方式二：手动复制
 
 ```bash
 # macOS / Linux
-cp -r skills/* ~/.codex/skills/
+mkdir -p ~/.codex/skills && cp -r skills/* ~/.codex/skills/
 
 # Windows
+if (-not (Test-Path "$env:USERPROFILE\.codex\skills\")) { New-Item -ItemType Directory "$env:USERPROFILE\.codex\skills\" }
 Copy-Item -Path "skills/*" -Destination "$env:USERPROFILE\.codex\skills\" -Recurse
 ```
 
