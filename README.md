@@ -1,3 +1,8 @@
+> **💡 项目说明**：本工具集由 AI（Codex / Claude）辅助生成，设计参考了
+> [webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) 和
+> [oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+> 两个开源项目。在此对原项目作者表示感谢。
+
 # novel - 网文创作工具集
 
 基于 Codex 的网络小说创作工具集，从构思到完本的完整工作流。
@@ -128,8 +133,19 @@ MIT License - 自由使用、修改、分享。
 
 ## 鸣谢
 
-本工具集的设计参考了以下开源项目：
-- [oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode) - 情绪驱动的网文写作方法论
-- 另一套 webnovel-* 技能系统 - 工程化的项目管理和数据模型
+本工具由 AI（Codex / Claude）辅助生成。
 
-在此表示感谢。本工具集融合了两者的设计精髓，以情绪驱动的方法论为核心，以工程化的数据模型为骨架。
+设计参考了以下开源项目：
+
+### webnovel-writer
+- 仓库: [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- 贡献: 工程化的项目管理（state.json 统一状态、Story System 合同体系、
+  memory-contract 查询、review-pipeline+metrics 落库、project_memory、
+  chapter-commit、doctor/dashboard）
+
+### oh-story-claudecode
+- 仓库: [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+- 贡献: 情绪驱动的写作方法论（先定情绪再定故事）、丰富的写作参考库
+  （hooks/反转/情绪技法）、扫榜拆文管线、去 AI 味流程、多书切换机制）
+
+本项目融合了两者的设计精髓：以情绪驱动的方法论为核心，以工程化的数据模型为骨架。
