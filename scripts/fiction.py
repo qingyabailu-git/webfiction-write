@@ -39,9 +39,9 @@ def cmd_contract(a):
     r=root(Path(a.project_root));s=load_state(r)
     pi=s.get("project",s.get("project_info",{}))
     d=r/".story-system";d.mkdir(parents=True,exist_ok=True)
-    m={"route":{"primary_genre":pi.get("genre",""),"target_platform":"fanqie"},"versions":{"contract_version":1}}
+    m={"route":{"primary_genre":pi.get("genre",""),"target_platform":"fanqie"},"versions":{"baseline_version":1}}
     (d/"MASTER_SETTING.json").write_text(json.dumps(m,ensure_ascii=False,indent=2),"utf-8")
-    print("contract done")
+    print("baseline done")
 def cmd_export(a):
     r=root(Path(a.project_root))
     chs=sorted((r/"正文").glob("第*.md"))

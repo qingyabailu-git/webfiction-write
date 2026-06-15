@@ -1,4 +1,4 @@
-> **💡 项目说明**：本工具集的灵感来源于两套开源网文创作 skill：
+﻿> **💡 项目说明**：本工具集的灵感来源于两套开源网文创作 skill：
 > [webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) 和
 > [oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)。
 > 在我看来两者各有优势——一个胜在工程化管理，一个胜在情绪驱动方法论——
@@ -19,24 +19,24 @@
 
 ## 技能清单
 
-| 技能 | 功能 | 阶段 |
-|------|------|------|
-| **novel** | 主入口路由，分发到子技能 | 全局 |
-| **fiction-conceive** | 构思共创：与 AI 讨论打磨核心构思 | 准备 |
-| **fiction-setup** | 初始化标准项目目录结构 | 准备 |
-| **fiction-start** | 正式开书：检查清单 → 锁基线 → 初始化合同 | 锁定 |
-| **fiction-scan** | 扫榜：分析平台排行榜找热门题材 | 参考 |
-| **fiction-analyze** | 拆文：拆解爆款小说结构和写法 | 参考 |
-| **fiction-plan** | 规划：卷节拍表 → 卷时间线 → 章细纲（滚动） | 写作前 |
-| **fiction-write** | 正文写作（Normal/Deep 双模式） | 核心 |
-| **fiction-revise** | 章节修改（Polish/Re-craft/Rewrite 三档） | 写作后 |
-| **fiction-review** | 质量审查（单章/批量/整卷） | 质量 |
-| **fiction-polish** | 润色与去 AI 味 | 质量 |
-| **fiction-query** | 查询设定、角色、伏笔等信息 | 全局 |
-| **fiction-learn** | 提取成功写作模式到 project_memory | 全局 |
-| **fiction-doctor** | 项目体检诊断 | 管理 |
-| **fiction-export** | 正文导出与完本归档 | 收尾 |
-| **fiction-import** | 导入已有小说到标准结构 | 辅助 |
+| 技能 | 功能 | 聊天触发（直接说话就行） | 阶段 |
+|------|------|------|------|
+| **fiction** | 主入口路由，分发到子技能 | 「我想写小说」「帮我写书」「写网文」「开新书」 | 全局 |
+| **fiction-conceive** | 构思共创：与 AI 讨论打磨核心构思 | 「聊聊构思」「帮我设计角色」「我想写个什么样的故事」 | 准备 |
+| **fiction-setup** | 初始化标准项目目录结构 | 「建项目」「准备写书」「搭环境」「从零开始」 | 准备 |
+| **fiction-start** | 正式开书：检查清单 → 锁基线 → 初始化底本 | 「开书」「可以动笔了」「准备好了，开始吧」 | 锁定 |
+| **fiction-scan** | 扫榜：分析平台排行榜找热门题材 | 「扫榜」「最近流行什么」「什么火」「市场怎么样」 | 参考 |
+| **fiction-analyze** | 拆文：拆解爆款小说结构和写法 | 「拆文」「分析这本书」「帮我拆一下」「学学这本书」 | 参考 |
+| **fiction-plan** | 规划：卷节拍表 → 卷时间线 → 章细纲（滚动） | 「规划」「做大纲」「后面怎么写」「帮我规划一下」 | 写作前 |
+| **fiction-write** | 正文写作（Normal/Deep 双模式，自动判断） | 「写第X章」「续写」「接着写」「下一章」「日更」 | 核心 |
+| **fiction-revise** | 章节修改（Polish/Re-craft/Rewrite 三档） | 「修改第X章」「重写」「这章不太对」「不满意」「回炉」 | 写作后 |
+| **fiction-review** | 质量审查（单章/批量/整卷） | 「审查」「帮我看下写得怎么样」「审一下」 | 质量 |
+| **fiction-polish** | 润色与去 AI 味 | 「润色」「去AI味」「这篇太AI了」「帮我顺一下文字」 | 质量 |
+| **fiction-query** | 查询设定、角色、伏笔等信息 | 「查角色」「查设定」「什么状态」「那个角色叫啥来着」 | 全局 |
+| **fiction-learn** | 提取成功写作模式到项目记忆库 | 「记住这个写法」「这招存起来」「以后都这么写」 | 全局 |
+| **fiction-doctor** | 项目体检：检查文件结构、底本完整性 | 「体检」「帮我看看项目有没有问题」「检查一下」 | 管理 |
+| **fiction-export** | 正文导出与完本归档 | 「导出」「完本」「导出txt」「我要完本了」 | 收尾 |
+| **fiction-import** | 导入已有小说到标准结构 | 「导入」「我有现成的稿子」「把我的书导进来」 | 辅助 |
 
 ## 安装
 
@@ -57,22 +57,17 @@ Copy-Item -Path "skills/*" -Destination "$env:USERPROFILE\.codex\skills\" -Recur
 
 ## 快速开始
 
-```text
-/fiction-setup          # 1. 创建项目骨架
-/fiction-conceive       # 2. 和 AI 聊聊你的小说构思
-/fiction-start          # 3. 正式开书
-/fiction-plan 1         # 4. 规划第 1 卷
-/fiction-write 1        # 5. 写第 1 章（系统自动选 Deep 模式）
-```
+不需要记命令，直接和 AI 聊天就能触发。当然，如果你更喜欢用命令，也可以：
 
-## 完整工作流
-
-```text
-fiction-setup    → 初始化项目骨架
-     ↓
-fiction-conceive → 构思共创：题材/主角/冲突/文风
+`
+直接说「帮我建个项目」      → 创建项目骨架
+直接说「聊聊构思」          → 和 AI 讨论你的小说构思
+直接说「开书」              → 正式开书
+直接说「规划一下」          → 规划第 1 卷
+直接说「写第一章」          → 开始写作（系统自动选 Deep 模式）
+`材/主角/冲突/文风
      ↓  （可穿插扫榜/拆文）
-fiction-start    → 检查清单 → 锁基线 → 初始化合同
+fiction-start    → 检查清单 → 锁基线 → 初始化底本
      ↓
 fiction-plan     → 卷节拍表 → 卷时间线 → 章细纲（滚动）
      ↓
@@ -94,7 +89,7 @@ fiction-export   → 完本导出
 
 | 条件 | 模式 |
 |------|------|
-| 首章/卷首/卷末/高潮/里程碑 | **Deep**（完整六步 + 合同同步） |
+| 首章/卷首/卷末/高潮/里程碑 | **Deep**（完整六步 + 底本同步） |
 | 常规推进章 | **Normal**（标准四步） |
 
 ### 自动里程碑提示
@@ -117,7 +112,7 @@ fiction-export   → 完本导出
 │   ├─ state.json            # 统一状态
 │   ├─ project_memory.json   # 写作模式积累
 │   └─ tmp/                  # 运行时临时文件
-├─ .story-system/             # Story System 合同
+├─ .story-system/             # Story System 底本
 ├─ 设定集/                    # 世界观/角色/力量体系
 ├─ 大纲/                      # 总纲/卷节拍/章纲
 ├─ 正文/                      # 各章正文
@@ -137,7 +132,7 @@ MIT License - 自由使用、修改、分享。
 
 ### webnovel-writer
 - 仓库: [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
-- 贡献: 工程化的项目管理（state.json 统一状态、Story System 合同体系、
+- 贡献: 工程化的项目管理（state.json 统一状态、Story System 底本体系、
   memory-contract 查询、review-pipeline+metrics 落库、project_memory、
   chapter-commit、doctor/dashboard）
 

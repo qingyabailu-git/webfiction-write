@@ -1,6 +1,6 @@
 interface:
-  display_name: "novel-write - 正文写作"
-  short_description: "Normal/Deep 双模式章节写作"
+  display_name: "fiction-write - 正文写作"
+  short_description: "普通/深度双模式章节写作"
   default_prompt: "使用 $fiction-write 开始写第 N 章正文"
 policy:
   allow_implicit_invocation: true

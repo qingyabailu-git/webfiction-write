@@ -1,6 +1,0 @@
-interface:
-  display_name: "novel-plan - 小说规划"
-  short_description: "卷节拍表、时间线与章细纲规划"
-  default_prompt: "使用 $fiction-plan 开始规划小说章节"
-policy:
-  allow_implicit_invocation: true

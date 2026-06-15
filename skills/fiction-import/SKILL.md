@@ -4,7 +4,12 @@ description: |
   逆向导入已有小说。将已写好的半成品或完本小说反向解析为标准项目目录结构，
   兼容后续 fiction-plan、fiction-write 流程。内部复用 fiction-analyze 的拆解管线，
   按篇幅自动分流。
-  触发方式：/fiction-import、「导入小说」「反向解析」「导入」「把我的书导进来」。
+  触发方式：/fiction-import、「导入小说」「反向解析」「导入」「把我的书导进来」「我有现成的稿子」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-import：导入已有小说
@@ -29,7 +34,7 @@ description: |
 ### Step 2：建立目标目录
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/novel.py" init --title "{书名}" --author "{作者}" --genre "{题材}" "${CLAUDE_PROJECT_DIR:-$PWD}")"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" init --title "{书名}" --author "{作者}" --genre "{题材}" "${CLAUDE_PROJECT_DIR:-$PWD}")"
 ```
 
 ### Step 3：解析源文件

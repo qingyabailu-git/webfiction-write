@@ -1,10 +1,15 @@
 ---
 name: fiction-start
 description: |
-  正式开书。运行开书前检查清单，确认构思充分后锁定基线、初始化 Story System 合同。
+  正式开书。运行开书前检查清单，确认构思充分后锁定基线、初始化 Story System 底本。
   开书后设定集锁定为基线，修改需走 fiction-revise 变更传播流程。
   开书前不支持写正文。
-  触发方式：/fiction-start、「开书」「正式开始」「锁定基线」「开始写作」。
+  触发方式：/fiction-start、「开书」「正式开始」「锁定基线」「开始写作」「准备好了，开始吧」「可以动笔了」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-start：正式开书
@@ -60,11 +65,11 @@ description: |
 - `大纲/总纲草案.md` → 去除"草案"标记
 - 在 `大纲/总纲.md` 中写入核心主线、创意约束（反套路规则/硬约束/主角缺陷/反派镜像）
 
-### 2. 初始化 Story System 合同
+### 2. 初始化 Story System 底本
 
 ```bash
 # 生成 MASTER_SETTING.json（全局调性、核心禁忌、题材映射）
-python -X utf8 "${SCRIPTS_DIR}/novel.py" story-system init \
+python -X utf8 "${SCRIPTS_DIR}/fiction.py" init-contract \
   --project-root "${PROJECT_ROOT}"
 ```
 
@@ -73,7 +78,7 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" story-system init \
 ```json
 {
   "progress": { "writing_started": true },
-  "versions": { "contract_version": 1 }
+  "versions": { "baseline_version": 1 }
 }
 ```
 
@@ -85,7 +90,7 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" story-system init \
 
   状态：
   · 设定集已锁定为基线
-  · 合同已初始化（版本 1）
+  · 底本已初始化（版本 1）
   · 当前阶段：正文写作就绪
 
   现在可以规划第 1 卷：
@@ -102,13 +107,13 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" story-system init \
 |------|--------|--------|
 | 修改设定 | 随意改 | 改完需传播检测 |
 | 写正文 | 不支持 | 正常 |
-| 合同 | 不存在 | 已初始化（版本 1）|
+| 底本 | 不存在 | 已初始化（版本 1）|
 | fiction-write | 提示"请先 fiction-start" | 正常 |
-| fiction-plan | 只做规划，不同步合同 | 规划 + 同步合同 |
+| fiction-plan | 只做规划，不同步底本 | 规划 + 同步底本 |
 
-**开书后每次 fiction-plan 会刷新对应卷/章的合同版本号。**
+**开书后每次 fiction-plan 会刷新对应卷/章的底本版本号。**
 
 ## 参考
 
-Story System 合同初始化由 `scripts/fiction.py` 的 `story-system init` 子命令完成。
-合同刷新由 fiction-plan 和 fiction-write 负责，start 只做初始建立。
+Story System 底本初始化由 `scripts/fiction.py` 的 `init-contract` 子命令完成。
+底本刷新由 fiction-plan 和 fiction-write 负责，start 只做初始建立。

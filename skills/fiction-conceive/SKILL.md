@@ -3,8 +3,12 @@ name: fiction-conceive
 description: |
   小说构思与共创。引导用户与 AI 共同打磨小说核心构思，包括题材定位、角色设计、
   世界观框架、核心冲突、文风定位等。在正式开书(fiction-start)前完成。
-  触发方式：/fiction-conceive、「聊聊构思」「帮我打磨设定」「讨论主角」
-  「文风讨论」「构思共创」。
+  触发方式：/fiction-conceive、「聊聊构思」「帮我打磨设定」「讨论主角」「文风讨论」「构思共创」「我想写个什么样的故事」「帮我设计角色」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-conceive：小说构思共创

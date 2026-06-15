@@ -4,7 +4,12 @@ description: |
   从当前会话提取成功写作模式并写入 project_memory.json。
   类型包括：hook/pacing/dialogue/payoff/emotion/format/other。
   后续写作时自动参考已积累的模式。
-  触发方式：/fiction-learn {写作经验描述}、「记住这个写法」「学习」「这个写法好」。
+  触发方式：/fiction-learn、「记住这个写法」「学习」「这个写法好」「把这招存起来」「以后都这么写」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-learn：写作模式提取
@@ -17,7 +22,7 @@ description: |
 ### 1. 解析项目根
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
 ```
 
 ### 2. 解析用户输入
@@ -40,7 +45,7 @@ export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "
 ### 4. 写入 project_memory.json
 
 ```bash
-python -X utf8 "${SCRIPTS_DIR}/novel.py" project-memory add-pattern \
+python -X utf8 "${SCRIPTS_DIR}/fiction.py" project-memory add-pattern \
   --pattern-type "{归类}" \
   --description "{完整描述}" \
   --category "{分类，可空}" \
@@ -70,5 +75,4 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" project-memory add-pattern \
 
 后续写作时 project_memory.json 由 fiction-write 的 context-agent 加载，
 作为文风参考和历史模式输入。本 skill 只负责写入，不负责读取。
-去重逻辑在 novel.py 脚本的 add-pattern 子命令中实现，
 此处不重复实现。

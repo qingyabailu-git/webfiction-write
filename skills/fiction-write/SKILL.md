@@ -1,10 +1,15 @@
 ---
 name: fiction-write
 description: |
-  正文写作。支持 Normal（标准四步）和 Deep（完整六步+合同同步+data-agent）双模式。
+  正文写作。支持 Normal（标准四步）和 Deep（完整六步+底本同步+data-agent）双模式。
   系统自动检测模式并提示用户确认。每章写完自动检测里程碑节点弹出建议。
   写作前自动检查章纲是否存在，不存在则阻断。
-  触发方式：/fiction-write {章号}、「写第X章」「续写」「继续写」「日更」。
+  触发方式：/fiction-write {章号}、「写第X章」「续写」「继续写」「日更」「下一章」「接着写」「开始写」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-write：正文写作
@@ -37,7 +42,7 @@ description: |
 ```
 📌 检测到本章是开篇第一章。
 建议使用 Deep 深度模式，以确保：
-  · 留下完整的合同基线
+  · 留下完整的底本基线
   · 审查报告与 metrics 落库
   · data-agent 提取初始事实供后续查询
 
@@ -49,7 +54,7 @@ description: |
 ## 前置检查
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
 ```
 
 ### 检查一：是否已开书
@@ -108,7 +113,9 @@ Step 4: 去 AI 味 + 格式规范 + 提交
   │     ├─ 追踪/时间线.md 追加
   │     ├─ 追踪/角色状态.md 更新
   │     └─ 设定集/配角卡 增量/新建
-  │ 4h: git backup
+  │ 4h: 生成章节摘要（静默，一句话级别，供 fiction-revise 变更传播使用）
+  │     写入 .novel/summaries/ch{N}.md
+  │ 4i: git backup
   │
 Step 5: 里程碑检查（自动，无交互）
   │ 检查当前章节号触发哪个里程碑
@@ -121,7 +128,7 @@ Step 5: 里程碑检查（自动，无交互）
 
 ```
 Step 1 → context-agent 生成完整写作任务书
-          （含全部活跃伏笔、合同约束、文风指引）
+          （含全部活跃伏笔、底本约束、文风指引）
 
 Step 3 → 审查报告写入 审查报告/第{章号}章审查报告.md
        → review metrics 写入 index.db
@@ -269,7 +276,7 @@ Normal 模式完成后的报告：
 ```
 ---
 
-## 附录：写回清单（合约，静默执行）
+## 附录：写回清单（底本，静默执行）
 
 每章完成后系统自动写回以下内容。用户不需要知道也不需要确认。
 

@@ -3,7 +3,12 @@ name: fiction-analyze
 description: |
   网文拆解。分析爆款小说的结构、人设、爽点、节奏等。
   自动按篇幅路由到长篇或短篇拆解管线。输出结构化分析报告。
-  触发方式：/fiction-analyze、「拆书」「拆文」「分析这本书」「深度拆解」。
+  触发方式：/fiction-analyze、「拆书」「拆文」「分析这本书」「深度拆解」「帮我拆一下」「学学这本书」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-analyze：网文拆解

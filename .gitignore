@@ -12,3 +12,16 @@ __pycache__/
 test_run/
 导出/
 tmp/
+# Test/utility scripts
+_fix_*.py
+_check.py
+_analysis.json
+# Test data (novel files)
+*.txt
+# Runtime artifacts
+.novel/
+.story-system/
+example/
+导出/
+tmp/
+test_run/

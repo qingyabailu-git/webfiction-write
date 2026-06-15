@@ -1,5 +1,5 @@
 interface:
-  display_name: "novel-conceive - 小说构思"
+  display_name: "fiction-conceive - 小说构思"
   short_description: "与 AI 讨论打磨小说核心构思"
   default_prompt: "使用 $fiction-conceive 开始打磨我的小说构思"
 policy:

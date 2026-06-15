@@ -1,9 +1,14 @@
 ---
 name: fiction-doctor
 description: |
-  项目体检诊断。只读检查项目目录、文件、JSON、合同体系完整性。
+  项目体检诊断。只读检查项目目录、文件、JSON、底本体系完整性。
   发现缺失或异常项时解释影响和修复建议，不自动修复。
-  触发方式：/fiction-doctor、「体检」「诊断」「检查项目」「项目状态」。
+  触发方式：/fiction-doctor、「体检」「诊断」「检查项目」「项目状态」「帮我看看这个项目有没有问题」「检查一下文件」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-doctor：项目体检诊断
@@ -23,13 +28,13 @@ export WORKSPACE_ROOT="${CLAUDE_PROJECT_DIR:-$PWD}"
 export SCRIPTS_DIR="${CLAUDE_PLUGIN_ROOT:?}/scripts"
 
 # 短状态
-python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${WORKSPACE_ROOT}" project-status --format summary
+python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" project-status --format summary
 
 # 标准体检
-python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${WORKSPACE_ROOT}" doctor --format text
+python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" doctor --format text
 
 # 指定章节（可选）
-# python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${WORKSPACE_ROOT}" doctor --chapter {N} --deep
+# python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" doctor --chapter {N} --deep
 ```
 
 ## 输出方式
@@ -37,7 +42,7 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${WORKSPACE_ROOT}" doct
 报告包含：
 - 当前 phase 和 target_chapter
 - 是否有 blocker、缺失或异常文件路径
-- 合同/设定集/追踪/正文完整性
+- 底本/设定集/追踪/正文完整性
 - 每个问题的影响和修复建议
 
 不执行真实修复，不展示或要求粘贴 API key。
@@ -46,12 +51,11 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${WORKSPACE_ROOT}" doct
 
 各阶段的文件完整性标准：
 - 开书前：.novel/state.json + 设定集/*.md + 总纲草案.md
-- 开书后：上述 + .story-system/ 合同 + 大纲/ + 正文/N章.md
-- 写作中：追踪/ 文件齐全、合同版本号匹配
-体检阶段感知由 novel.py 脚本的 doctor 子命令自动判断。
+- 开书后：上述 + .story-system/ 底本 + 大纲/ + 正文/N章.md
+- 写作中：追踪/ 文件齐全、底本版本号匹配
 本 skill 不重复定义各阶段清单。
 如需主动修复，先运行 doctor 查看报告，再按建议执行。
-如果 contract_version 不匹配，建议运行 fiction-start 刷新合同。
+如果 baseline_version 不匹配，建议运行 fiction-start 刷新底本。
 如果追踪文件缺失，重新跑 fiction-write 对应章节会自动补全。
 ---
 ### 使用示例
@@ -74,7 +78,7 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${WORKSPACE_ROOT}" doct
   · 追踪/伏笔.md ✓
   · 追踪/时间线.md ✓
   · .story-system/MASTER_SETTING.json ✓
-  · 合同版本号一致 ✓
+  · 底本版本号一致 ✓
 
 ⚠️ 建议注意
   · 距上次审查已过 6 章（第 9 章后未审）

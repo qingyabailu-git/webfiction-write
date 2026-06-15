@@ -1,5 +1,5 @@
 interface:
-  display_name: "novel-start - 正式开书"
+  display_name: "fiction-start - 正式开书"
   short_description: "检查清单后锁定基线开始正文写作"
   default_prompt: "使用 $fiction-start 正式开书"
 policy:

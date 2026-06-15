@@ -1,6 +1,0 @@
-﻿interface:
-  display_name: "novel-polish - 润色去AI味"
-  short_description: "格式规范化、去AI腔、文风一致性"
-  default_prompt: "使用 $fiction-polish 润色正文"
-policy:
-  allow_implicit_invocation: true

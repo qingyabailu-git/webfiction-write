@@ -3,13 +3,18 @@ name: fiction-plan
 description: |
   小说规划系统。基于总纲生成卷节拍表、卷时间线和章细纲（滚动式）。
   每卷写前做一次卷规划，每 10 章写完后系统提示补下一批细纲。
-  执行后同步 Story System 合同。
-  触发方式：/fiction-plan {卷号或章范围}、「规划第X卷」「补细纲」「做大纲」「规划」。
+  执行后同步 Story System 底本。
+  触发方式：/fiction-plan {卷号或章范围}、「规划第X卷」「补细纲」「做大纲」「规划」「帮我规划一下」「后面怎么写」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-plan：小说规划
 
-基于总纲增量细化卷/时间线/章纲，同步 Story System 合同。
+基于总纲增量细化卷/时间线/章纲，同步 Story System 底本。
 不重做全局故事，不重写整份总纲或设定集。
 
 ## 执行原则
@@ -30,7 +35,7 @@ description: |
 ### Step 1：加载项目数据
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
 cat "$PROJECT_ROOT/.novel/state.json"
 cat "$PROJECT_ROOT/大纲/总纲.md"
 GENRE="$(python -X utf8 -c "import json; s=json.load(open('${PROJECT_ROOT}/.novel/state.json',encoding='utf-8')); pi=s.get('project_info',{}) or s.get('project',{}); print(pi.get('genre',''))")"
@@ -95,13 +100,11 @@ GENRE="$(python -X utf8 -c "import json; s=json.load(open('${PROJECT_ROOT}/.nove
 - 写完一批后自动提示："第 X 章写完了。下 10 章的细纲还没做。要现在生成吗？"
 - 用户也可主动：(fiction-plan 11-20)
 
-### Step 7：同步合同
+### Step 7：同步底本
 
-每批章纲生成后，同步 Story System 合同：
+每批章纲生成后，同步 Story System 底本：
 ```bash
-python -X utf8 "${SCRIPTS_DIR}/novel.py" story-system \
-  --project-root "${PROJECT_ROOT}" sync-plan \
-  --volume {volume_id} --genre "${GENRE}"
+# 底本同步由 AI agent 直接写入 .story-system/ JSON 文件完成
 ```
 
 ### Step 8：写回设定（新增角色/势力）

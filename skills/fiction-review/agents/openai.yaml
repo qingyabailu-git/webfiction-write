@@ -1,5 +1,5 @@
-﻿interface:
-  display_name: "novel-review - 质量审查"
+interface:
+  display_name: "fiction-review - 质量审查"
   short_description: "章节质量审查与指标落库"
   default_prompt: "使用 $fiction-review 审查章节质量"
 policy:

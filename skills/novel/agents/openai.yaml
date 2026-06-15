@@ -1,6 +1,0 @@
-interface:
-  display_name: "fiction - 网文创作工具集"
-  short_description: "从构思到完本的网络小说创作助手"
-  default_prompt: "使用 $novel 启动网文创作工具集，开始规划小说构思"
-policy:
-  allow_implicit_invocation: true

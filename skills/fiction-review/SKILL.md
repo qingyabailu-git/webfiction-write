@@ -1,21 +1,26 @@
 ---
 name: fiction-review
 description: |
-  质量审查。使用 reviewer agent 评估章节质量，生成审查报告并写回审查指标。
+  质量审查。使用审查模型评估章节质量，生成审查报告并写回审查指标。
   支持单章、批量（1-5）、整卷（--volume N）审查。
-  触发方式：/fiction-review {章号或范围}、「审查」「审一下」「检查质量」「review」。
+  触发方式：/fiction-review {章号或范围}、「审查」「审一下」「检查质量」「review」「帮我看下写得怎么样」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-review：质量审查
 
-使用 reviewer agent 评估章节质量，生成结构化报告和 metrics。
+使用审查模型评估章节质量，生成结构化报告和审查指标。
 
 ## 执行流程
 
 ### Step 1：解析项目根
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
 ```
 
 ### Step 2：加载审查参考
@@ -36,7 +41,7 @@ reviewer 跳过、失败、输出不完整、正文为空 → 记录问题，不
 ### Step 4：生成报告并落库
 
 ```bash
-python -X utf8 "${SCRIPTS_DIR}/novel.py" review-pipeline \
+python -X utf8 "${SCRIPTS_DIR}/fiction.py" review-pipeline \
   --project-root "${PROJECT_ROOT}" \
   --chapter {章节号} \
   --review-results ".novel/tmp/review_results.json" \

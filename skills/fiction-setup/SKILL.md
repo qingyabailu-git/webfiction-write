@@ -3,7 +3,12 @@ name: fiction-setup
 description: |
   网络小说项目初始化。创建标准项目目录结构、初始配置文件(state.json)、
   设定集骨架。在进入构思(fiction-conceive)前运行。
-  触发方式：/fiction-setup、「建项目」「初始化」「准备写书」「搭环境」。
+  触发方式：/fiction-setup、「建项目」「初始化」「准备写书」「搭环境」「帮我建个项目」「从零开始」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-setup：项目初始化
@@ -60,7 +65,7 @@ export PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$PWD}"
     "writing_started": false
   },
   "versions": {
-    "contract_version": 0,
+    "baseline_version": 0,
     "last_review_chapter": 0
   }
 }

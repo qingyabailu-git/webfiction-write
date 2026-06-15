@@ -2,9 +2,14 @@
 name: fiction-revise
 description: |
   章节修改。支持三种模式：Polish（润色表达，不改事实）、Re-craft（改事实但主干不变，
-  自动传播到后续章节和设定）、Rewrite（整章重写，全链路刷新合同和数据层）。
+  自动传播到后续章节和设定）、Rewrite（整章重写，全链路刷新底本和数据层）。
   系统自动检测修改类型并推荐模式。
-  触发方式：/fiction-revise {章号或范围}、「修改第X章」「重写」「回炉」「改设定」。
+  触发方式：/fiction-revise {章号或范围}、「修改第X章」「重写」「回炉」「改设定」「不满意」「这章不太对」「帮我改改」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-revise：章节修改
@@ -111,7 +116,7 @@ Step 4: 变更传播
   → 同 Re-craft Step 3-6
   → 范围更广（可能波及拉取后续所有章节）
 
-Step 5: 合同刷新
+Step 5: 底本刷新
   → data-agent 重新提取本章事实
   → chapter-commit 覆盖原 commit
   → projection 五层全部刷新
@@ -132,13 +137,14 @@ Step 6: 回填大纲
 
 - 每次 chapter-commit 或 fiction-revise 执行前自动打 git tag（`pre-revise-ch{章号}`）
 - 用户不满意可运行：`git checkout pre-revise-ch{章号} {受影响的文件}`
-- 恢复后重新跑 data-agent 刷新合同
+- 恢复后重新跑 data-agent 刷新底本
 - 这是一个补丁级安全网，不是完整分支管理
 
 ## 参考
 
 变更传播引擎依赖每章的摘要文件（.novel/summaries/ch{章号}.md）做快速过滤。
-如果摘要不存在，退化为逐章读正文判断（慢但可用）。
+Normal 和 Deep 模式下每章写完都会自动生成一句话摘要，确保变更传播始终可快速扫描。
+如遇极端情况摘要缺失，退化为逐章读正文判断（慢但可用）。
 写回规则与 fiction-write 一致（静默执行，仅跨卷确认）。
 轻量 reviewer 同 fiction-review 的 reviewer schema，但只检查连续性问题维度。
 章节回滚的安全网由 git tag 提供，不依赖专用脚本。

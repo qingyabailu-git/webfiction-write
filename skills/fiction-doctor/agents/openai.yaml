@@ -1,5 +1,5 @@
-﻿interface:
-  display_name: "novel-doctor - 体检诊断"
+interface:
+  display_name: "fiction-doctor - 体检诊断"
   short_description: "项目文件完整性检查"
   default_prompt: "使用 $fiction-doctor 检查项目状态"
 policy:

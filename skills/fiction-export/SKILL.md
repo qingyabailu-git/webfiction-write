@@ -3,7 +3,12 @@ name: fiction-export
 description: |
   导出与完本归档。合并所有正文为 .txt/.docx 格式，
   可选去格式、加目录、生成封面。完本后一键归档项目文件。
-  触发方式：/fiction-export、「导出」「完本」「归档」「下载」。
+  触发方式：/fiction-export、「导出」「完本」「归档」「下载」「导出txt」「我要完本了」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-export：导出与完本归档
@@ -21,7 +26,7 @@ description: |
 
 ```bash
 # 导出全部已写章节
-python -X utf8 "${SCRIPTS_DIR}/novel.py" export merge \
+python -X utf8 "${SCRIPTS_DIR}/fiction.py" export \
   --project-root "${PROJECT_ROOT}" \
   --format txt --output "导出/{书名}_完本.txt"
 ```
@@ -35,7 +40,7 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" export merge \
 4. 生成完本元数据（字数/章数/写作历时）
 
 ```bash
-python -X utf8 "${SCRIPTS_DIR}/novel.py" export archive \
+python -X utf8 "${SCRIPTS_DIR}/fiction.py" export \
   --project-root "${PROJECT_ROOT}" \
   --output "归档/{书名}_完本归档.zip"
 ```
@@ -43,7 +48,7 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" export archive \
 ### 文件清理
 
 - 清理运行时临时文件（`.novel/tmp/`）
-- 保留追踪/合同等核心数据
+- 保留追踪/底本等核心数据
 
 ## 使用示例
 
@@ -57,13 +62,13 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" export archive \
 > /fiction-export --archive
 
 ✅ 已归档：归档/剑来_完本归档.zip
-包含：正文/设定集/大纲/追踪/合同
+包含：正文/设定集/大纲/追踪/底本
 总字数：12.3 万字 | 45 章 | 历时 67 天
 ```
 
 ## 参考
 
-合并脚本由 `scripts/fiction.py` 的 `export merge` 和 `export archive` 子命令处理。
+合并脚本由 `scripts/fiction.py` 的 `export` 和 `export` 子命令处理。
 完本归档后，项目目录可移出活跃工作区。
 如需继续写新书，运行 fiction-setup 初始化新项目。
 如果使用 `.docx` 格式，依赖 Documents 插件的 docx-js 库。
@@ -79,6 +84,6 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" export archive \
 - 每章末尾空两行
 - 无额外格式标记
 
-本 skill 的 `export merge` 子命令默认遵守上述规范。
+本 skill 的 `export` 子命令默认遵守上述规范。
 使用 `--format fanqie` 参数可自动适配番茄平台格式要求。
 ```

@@ -1,6 +1,0 @@
-﻿interface:
-  display_name: "novel-import - 导入小说"
-  short_description: "导入已有小说到标准项目结构"
-  default_prompt: "使用 $fiction-import 导入已有小说"
-policy:
-  allow_implicit_invocation: true

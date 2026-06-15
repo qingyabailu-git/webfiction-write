@@ -3,7 +3,12 @@ name: fiction-query
 description: |
   查询项目设定、角色、力量体系、势力、伏笔等信息。支持角色历史状态、实体关系、
   世界规则、伏笔/open-loop 查询。只读操作，不修改任何项目文件。
-  触发方式：/fiction-query {查询内容}、「查角色」「查伏笔」「查设定」「什么状态」。
+  触发方式：/fiction-query {查询内容}、「查角色」「查伏笔」「查设定」「什么状态」「那个角色叫啥来着」「进展到哪了」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-query：信息查询
@@ -26,7 +31,7 @@ description: |
 ### 1. 解析项目根
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
 ```
 
 ### 2. 识别查询类型
@@ -37,21 +42,8 @@ export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/novel.py" --project-root "
 
 ```bash
 # 角色历史状态
-python -X utf8 "${SCRIPTS_DIR}/novel.py" knowledge query-entity-state \
-  --entity "{entity_id}" --at-chapter {N}
-
-# 实体关系
-python -X utf8 "${SCRIPTS_DIR}/novel.py" knowledge query-relationships \
-  --entity "{entity_id}" --at-chapter {N}
-
-# 世界规则
-python -X utf8 "${SCRIPTS_DIR}/novel.py" memory-contract query-rules --chapter {chapter}
-
-# 伏笔 / open-loop
-python -X utf8 "${SCRIPTS_DIR}/novel.py" memory-contract get-open-loops
-
-# 综合复杂
-python -X utf8 "${SCRIPTS_DIR}/novel.py" memory-contract load-context --chapter {chapter}
+# knowledge 查询由 AI agent 直接读取追踪文件完成
+# memory-contract 查询由 AI agent 直接读取底本文件完成
 ```
 
 静态设定直接用 Grep + Read 从设定集读取，不走 memory-contract。
@@ -64,13 +56,13 @@ python -X utf8 "${SCRIPTS_DIR}/novel.py" memory-contract load-context --chapter 
 
 查询时按以下顺序定位真源：
 1. `.story-system/MASTER_SETTING.json` — 全局主设定
-2. `.story-system/volumes/*.json` — 卷级合同
-3. `.story-system/chapters/*.json` — 章级合同
+2. `.story-system/volumes/*.json` — 卷级底本
+3. `.story-system/chapters/*.json` — 章级底本
 4. `.story-system/commits/chapter_*.commit.json` — 写后事实
 5. `memory-contract` 系列查询 — 记忆编排结果
 6. `.novel/state.json` / 设定集 — 投影层（fallback/read-model）
 
-如果 `.story-system/` 合同缺失，必须显式说明查询已降级到投影层。
+如果 `.story-system/` 底本缺失，必须显式说明查询已降级到投影层。
 
 ## 边界
 
@@ -104,7 +96,6 @@ fiction-query/            # 本技能目录
 查询时的参考加载遵循"识别类型后才加载"原则，不预读全部。
 综合/复杂查询才会同时加载多于一个 reference。
 静态设定查询不加载 reference，直接用 Grep 定位。
-memory-contract 查询的 schema 由 novel.py 脚本定义，本 skill 不另行维护。
 ```
 ---
 

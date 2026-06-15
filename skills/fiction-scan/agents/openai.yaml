@@ -1,5 +1,5 @@
-﻿interface:
-  display_name: "novel-scan - 网文扫榜"
+interface:
+  display_name: "fiction-scan - 网文扫榜"
   short_description: "分析排行榜数据找热门题材"
   default_prompt: "使用 $fiction-scan 查看番茄平台趋势"
 policy:

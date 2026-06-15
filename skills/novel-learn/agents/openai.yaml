@@ -1,6 +1,0 @@
-﻿interface:
-  display_name: "novel-learn - 写作学习"
-  short_description: "提取保存成功写作模式"
-  default_prompt: "使用 $fiction-learn 记住这个写法"
-policy:
-  allow_implicit_invocation: true

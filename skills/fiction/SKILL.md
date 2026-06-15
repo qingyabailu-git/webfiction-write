@@ -2,13 +2,13 @@
 name: fiction
 description: |
   网络小说创作工具集主入口。用于创作番茄等平台网络小说，涵盖从构思到完本的完整流程。
-  触发方式：/novel、「我想写小说」「帮我写书」「写网文」「开新书」等创作意图。
+  触发方式：/fiction、「我想写小说」「帮我写书」「写网文」「开新书」「写个故事」「想写东西」等创作意图。
   自动路由到对应子 skill：构思(fiction-conceive)、规划(fiction-plan)、写作(fiction-write)、
   修改(fiction-revise)、审查(fiction-review)、润色(fiction-polish)等。
   未明确指定操作时，分析意图后路由。
 ---
 
-# novel：网文创作工具集路由
+# fiction：网文创作工具集路由
 
 你是网文创作工具集的路由入口。用户请求模糊时由你分发到具体 skill。
 

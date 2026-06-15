@@ -3,7 +3,12 @@ name: fiction-polish
 description: |
   润色与去 AI 味。对已有正文执行格式规范化、banned-words 扫描替换、
   AI 腔检测与人工化改写、文风一致性检查。支持单章和批量范围。
-  触发方式：/fiction-polish {章号或范围}、「润色」「去AI味」「格式」「标点规范」。
+  触发方式：/fiction-polish {章号或范围}、「润色」「去AI味」「格式」「标点规范」「这篇太AI了」「帮我顺一下文字」。
+metadata:
+  openclaw:
+    sources:
+      - https://github.com/lingfengQAQ/webnovel-writer
+      - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
 # fiction-polish：润色与去 AI 味
