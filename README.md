@@ -59,28 +59,34 @@ Copy-Item -Path "skills/*" -Destination "$env:USERPROFILE\.codex\skills\" -Recur
 
 不需要记命令，直接和 AI 聊天就能触发。当然，如果你更喜欢用命令，也可以：
 
-`
+```
 直接说「帮我建个项目」      → 创建项目骨架
 直接说「聊聊构思」          → 和 AI 讨论你的小说构思
 直接说「开书」              → 正式开书
 直接说「规划一下」          → 规划第 1 卷
 直接说「写第一章」          → 开始写作（系统自动选 Deep 模式）
-`材/主角/冲突/文风
-     ↓  （可穿插扫榜/拆文）
-fiction-start    → 检查清单 → 锁基线 → 初始化底本
-     ↓
-fiction-plan     → 卷节拍表 → 卷时间线 → 章细纲（滚动）
-     ↓
-fiction-write    → 写作循环（每章自动检测模式 + 里程碑提示）
-     ↓
-fiction-revise   → 修改（改事实自动传播到后续章节）
-     ↓
-fiction-review   → 审查（单章/批量/整卷）
-fiction-polish   → 润色与去 AI 味
-     ↓
-fiction-export   → 完本导出
 ```
 
+### 完整工作流
+
+```
+构想：题材/主角/冲突/文风
+     ↓  （可穿插扫榜/拆文）
+fiction-conceive → 构思打磨
+     ↓
+fiction-start     → 检查清单 → 锁基线 → 初始化底本
+     ↓
+fiction-plan      → 卷节拍表 → 卷时间线 → 章细纲（滚动）
+     ↓
+fiction-write     → 写作循环（每章自动检测模式 + 里程碑提示）
+     ↓
+fiction-revise    → 修改（改事实自动传播到后续章节）
+     ↓
+fiction-review    → 审查（单章/批量/整卷）
+fiction-polish    → 润色与去 AI 味
+     ↓
+fiction-export    → 完本导出
+```
 ## 关键设计
 
 ### Normal/Deep 双模式
