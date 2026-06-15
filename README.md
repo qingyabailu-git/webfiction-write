@@ -1,7 +1,9 @@
-> **💡 项目说明**：本工具集由 AI（Codex / Claude）辅助生成，设计参考了
+> **💡 项目说明**：本工具集的灵感来源于两套开源网文创作 skill：
 > [webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) 和
-> [oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
-> 两个开源项目。在此对原项目作者表示感谢。
+> [oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)。
+> 在我看来两者各有优势——一个胜在工程化管理，一个胜在情绪驱动方法论——
+> 于是用 AI（Codex / Claude）将它们的设计精髓融合成了这套 fiction-* 工具集。
+> 在此对原项目作者表示感谢。
 
 # web-fiction - 网文创作工具集
 
@@ -32,11 +34,8 @@
 | **fiction-polish** | 润色与去 AI 味 | 质量 |
 | **fiction-query** | 查询设定、角色、伏笔等信息 | 全局 |
 | **fiction-learn** | 提取成功写作模式到 project_memory | 全局 |
-| **fiction-switch** | 多书切换 | 管理 |
 | **fiction-doctor** | 项目体检诊断 | 管理 |
 | **fiction-export** | 正文导出与完本归档 | 收尾 |
-| **fiction-dashboard** | 本地只读管理面板 | 管理 |
-| **fiction-cover** | AI 生成小说封面 | 辅助 |
 | **fiction-import** | 导入已有小说到标准结构 | 辅助 |
 
 ## 安装
@@ -55,7 +54,6 @@ Copy-Item -Path "skills/*" -Destination "$env:USERPROFILE\.codex\skills\" -Recur
 
 - Python 3.8+（可选，用于 `scripts/fiction.py` 后端脚本）
 - 扫榜功能需要 `browser-cdp` skill（可选）
-- Dashboard 需要 webnovel-dashboard 的后端模块（可选）
 
 ## 快速开始
 
