@@ -1,9 +1,10 @@
 ﻿> **💡 项目说明**：本工具集的灵感来源于两套开源网文创作 skill：
 > [webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) 和
 > [oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)。
-> 在我看来两者各有优势——一个胜在工程化管理，一个胜在情绪驱动方法论——
+> 两个skill我都是用了，在我看来两者各有优势——一个强在工程化管理，一个强在情绪驱动方法论——
 > 于是用 AI（Codex / Claude）将它们的设计精髓融合成了这套 fiction-* 工具集。
 > 在此对原项目作者表示感谢。
+> 我不懂代码，内容都是deepseek写的。
 
 # web-fiction - 网文创作工具集
 
