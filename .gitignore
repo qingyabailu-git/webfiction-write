@@ -3,13 +3,12 @@
 Thumbs.db
 *.swp
 *.swo
-
 # Python
 __pycache__/
 *.pyc
 *.pyo
-
-# Test artifacts
+# Test
 .story-system/
+test_run/
 导出/
 tmp/

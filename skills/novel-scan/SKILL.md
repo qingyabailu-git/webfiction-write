@@ -97,3 +97,94 @@ description: |
 选题建议中特别标注"番茄适配"程度。
 发行策略参考 publishing-guide.md。
 ```
+│ 长篇排行、起点、番茄、晋江 | 长篇扫榜管线 |
+│ 短篇排行、知乎盐言、故事会 | 短篇扫榜管线 |
+│ 选题决策、写什么能火 | 长篇扫榜管线（默认） |
+| 长篇排行、起点、番茄、晋江 | 长篇扫榜管线 |
+| 短篇排行、知乎盐言、故事会 | 短篇扫榜管线 |
+| 选题决策、写什么能火 | 长篇扫榜管线（默认） |
+## 长篇扫榜管线
+
+### 1. 确定分析目标
+- 用户指定平台（起点/番茄/晋江）、榜单类型（畅销/推荐/新书）
+- 或用户只说"帮我看看现在什么火" → 默认番茄 + 畅销榜
+
+### 2. 数据采集
+
+**方式 A：CDP 浏览器模式（推荐）**
+先用 browser-cdp 技能启动 Chrome 调试模式，再运行爬虫脚本：
+```bash
+# 1. 启动/检测 CDP
+node skills/novel-scan/scripts/cdp-utils.js 9222 --detect
+
+# 2. 运行爬虫（以番茄为例）
+node skills/novel-scan/scripts/fanqie-rank-scraper.js \
+  --url "https://fanqienovel.com/rank" \
+  --output "扫榜分析/{日期}_番茄畅销榜.md"
+```
+
+**方式 B：HTTP 直连模式（备用，无需 CDP）**
+直接用 Node.js https 模块抓取：
+```bash
+SCRIPTS_DIR=skills/novel-scan/scripts
+node -e "
+const https = require('https');
+https.get('https://api.fanqienovel.com/api/rank/list', (res) => {
+  let d = '';
+  res.on('data', c => d += c);
+  res.on('end', () => {
+    const data = JSON.parse(d);
+    // 解析排行数据
+    console.log('番茄排行数据:', data.length, '条');
+  });
+});
+"
+```
+
+### 3. 数据分析
+输出分析报告（已有测试通过 14/14）：
+- 热门题材分布
+- 同类书的差异化定位
+- 读者画像
+- 选题建议
+- 成交流程：输出到项目目录 `扫榜分析/`
+
+### 4. 写回
+- 完整报告写入 `扫榜分析/`（标题含日期）
+- 核心选题建议写入项目根 `选题决策.md`
+
+## 短篇扫榜管线
+类似长篇管线，但数据来源不同：
+- 知乎盐言、七猫短篇、黑岩故事会
+- 分析重点：情绪类型分布、反转密度、字数分布
+- 脚本：`dz-browse-scraper.js`、`heiyan-booklist-scraper.js`
+
+## 环境要求
+
+爬虫脚本依赖以下组件（未安装时只影响 CDP 模式，不影响分析逻辑）：
+- Node.js（已有） + Playwright（已有）
+- Chrome 浏览器（已有，位于 `C:\Program Files\Google\Chrome\Application\chrome.exe`）
+- `browser-cdp` skill（已有）
+
+## 使用示例
+```
+> /novel-scan 番茄 畅销榜 都市
+
+📊 正在采集番茄小说畅销榜数据（都市分类）...
+✅ 扫榜分析报告已生成：扫榜分析/2026-06-15_番茄畅销榜-都市.md
+✅ 选题决策.md 已更新
+```
+
+## 参考
+爬虫脚本位置：`skills/novel-scan/scripts/`
+支持的脚本：
+- `fanqie-rank-scraper.js` — 番茄小说
+- `qidian-rank-scraper.js` — 起点中文网
+- `jjwxc-rank-scraper.js` — 晋江文学城
+- `ciweimao-rank-scraper.js` — 刺猬猫
+- `qimao-rank-scraper.js` — 七猫
+- `dz-browse-scraper.js` — 点众短篇
+- `heiyan-booklist-scraper.js` — 黑岩短篇
+- `cdp-utils.js` — CDP 连接工具
+
+爬虫需配合 browser-cdp skill 使用。分析报告生成已独立验证通过。
