@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-revise - 章节修改"
-  short_description: "润色/小改/重写三档修改"
-  default_prompt: "使用 $fiction-revise 修改已写章节"
+  display_name: "fiction-revise - 绔犺妭淇敼"
+  short_description: "娑﹁壊/灏忔敼/閲嶅啓涓夋。淇敼"
+  default_prompt: "浣跨敤 $fiction-revise 淇敼宸插啓绔犺妭"
 policy:
   allow_implicit_invocation: true

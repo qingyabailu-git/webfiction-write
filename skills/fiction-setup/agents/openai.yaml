@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-setup - 项目初始化"
-  short_description: "创建网文项目的标准目录结构"
-  default_prompt: "使用 $fiction-setup 初始化我的小说项目"
+  display_name: "fiction-setup - 椤圭洰鍒濆鍖?
+  short_description: "鍒涘缓缃戞枃椤圭洰鐨勬爣鍑嗙洰褰曠粨鏋?
+  default_prompt: "浣跨敤 $fiction-setup 鍒濆鍖栨垜鐨勫皬璇撮」鐩?
 policy:
   allow_implicit_invocation: true

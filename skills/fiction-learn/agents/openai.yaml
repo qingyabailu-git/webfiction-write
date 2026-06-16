@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-learn - 写作学习"
-  short_description: "提取保存成功写作模式"
-  default_prompt: "使用 $fiction-learn 记住这个写法"
+  display_name: "fiction-learn - 鍐欎綔瀛︿範"
+  short_description: "鎻愬彇淇濆瓨鎴愬姛鍐欎綔妯″紡"
+  default_prompt: "浣跨敤 $fiction-learn 璁颁綇杩欎釜鍐欐硶"
 policy:
   allow_implicit_invocation: true

@@ -1,10 +1,11 @@
 import argparse, json, os
 from pathlib import Path
 from datetime import datetime
-def root(start):
+
+def find_project(start):
+    """只读查找项目根目录，找不到返回 None，不创建任何文件"""
     c = Path(start).resolve()
-    novel_dir = c / ".novel"
-    state_file = novel_dir / "state.json"
+    state_file = c / ".novel" / "state.json"
     if state_file.exists():
         return c
     for child in sorted(c.iterdir()):
@@ -12,108 +13,242 @@ def root(start):
             child_state = child / ".novel" / "state.json"
             if child_state.exists():
                 return child
+    return None
+
+def init_project(start, title="", author="", genre=""):
+    """显式创建新项目，返回项目根"""
+    c = Path(start).resolve()
+    novel_dir = c / ".novel"
     novel_dir.mkdir(parents=True, exist_ok=True)
-    init_state = {"project": {"book_name": "", "genre": ""}, "progress": {}, "versions": {"baseline_version": 1}}
+    state_file = novel_dir / "state.json"
+    init_state = {
+        "project": {"book_name": title, "author": author, "genre": genre},
+        "progress": {},
+        "versions": {"baseline_version": 1}
+    }
     state_file.write_text(json.dumps(init_state, ensure_ascii=False, indent=2), "utf-8")
     return c
+
 def load_state(r):
-    f=r/".novel"/"state.json"
-    return json.loads(f.read_text("utf-8")) if f.exists() else {}
-def save_state(r,s):
-    f=r/".novel"/"state.json"
-    f.parent.mkdir(parents=True,exist_ok=True)
-    f.write_text(json.dumps(s,ensure_ascii=False,indent=2),"utf-8")
-def cmd_where(a):print(root(Path(a.project_root)))
+    f = r / ".novel" / "state.json"
+    if f.exists():
+        try:
+            return json.loads(f.read_text("utf-8"))
+        except Exception:
+            return {}
+    return {}
+
+def save_state(r, s):
+    f = r / ".novel" / "state.json"
+    f.parent.mkdir(parents=True, exist_ok=True)
+    f.write_text(json.dumps(s, ensure_ascii=False, indent=2), "utf-8")
+
+def cmd_init(a):
+    r = init_project(Path(a.project_root), a.title or "", a.author or "", a.genre or "")
+    print(str(r))
+
+def cmd_where(a):
+    r = find_project(Path(a.project_root))
+    if r:
+        print(str(r))
+    else:
+        print("no project found")
+
 def cmd_status(a):
-    r=root(Path(a.project_root));s=load_state(r)
-    if not s:print("no state");return
-    pi=s.get("project",s.get("project_info",{}))
-    pr=s.get("progress",{})
-    print("book:",pi.get("book_name",pi.get("title","?")))
-    print("genre:",pi.get("genre","?"))
-    print("writing_started:",pr.get("writing_started",False))
+    r = find_project(Path(a.project_root))
+    if not r:
+        print("no project")
+        return
+    s = load_state(r)
+    if not s:
+        print("no state")
+        return
+    pi = s.get("project", s.get("project_info", {}))
+    pr = s.get("progress", {})
+    print("book:", pi.get("book_name", pi.get("title", "?")))
+    print("genre:", pi.get("genre", "?"))
+    print("writing_started:", pr.get("writing_started", False))
+
 def cmd_doctor(a):
-    r = root(Path(a.project_root))
+    r = find_project(Path(a.project_root))
+    if not r:
+        print("no project")
+        return
     issues = []
     try:
-        checks = [r / ".novel" / "state.json",
-                  r / "设定集" / "主角卡.md",
-                  r / "设定集" / "世界观.md",
-                  r / "大纲" / "总纲.md"]
-        for p in checks:
-            if not p.exists():
-                issues.append(f"missing: {p.relative_to(r)}")
+        checks = [
+            (r / ".novel" / "state.json", "state.json"),
+            (r / "设定集" / "主角卡.md", "设定集/主角卡.md"),
+            (r / "设定集" / "世界观.md", "设定集/世界观.md"),
+            (r / "大纲" / "总纲.md", "大纲/总纲.md"),
+        ]
+        for path_obj, name in checks:
+            if not path_obj.exists():
+                issues.append("missing: " + name)
         td = r / "正文"
         if td.exists():
             chs = sorted(td.glob("第*.md"))
             if chs:
-                print(f"chapters: {len(chs)}")
+                print("chapters: " + str(len(chs)))
         tracks = ["追踪/上下文.md", "追踪/伏笔.md", "追踪/时间线.md", "追踪/角色状态.md"]
         for t in tracks:
             if not (r / t).exists():
-                issues.append(f"missing: {t}")
-        if issues:
+                issues.append("missing: " + t)
+        if a.format == "json":
+            print(json.dumps({"issues": issues, "ok": len(issues) == 0}, ensure_ascii=False))
+        else:
             for i in issues:
                 print(i)
-        else:
-            print("project structure OK")
+            if not issues:
+                print("project structure OK")
     except Exception as e:
-        print(f"diagnose error: {e}")
-        print("tip: check if project files contain special characters")
+        print("diagnose error: " + str(e))
+        print("tip: check if project path contains special characters")
+
 def cmd_contract(a):
-    r=root(Path(a.project_root));s=load_state(r)
-    pi=s.get("project",s.get("project_info",{}))
-    d=r/".story-system";d.mkdir(parents=True,exist_ok=True)
-    m={"route":{"primary_genre":pi.get("genre",""),"target_platform":"fanqie"},"versions":{"baseline_version":1}}
-    (d/"MASTER_SETTING.json").write_text(json.dumps(m,ensure_ascii=False,indent=2),"utf-8")
+    r = find_project(Path(a.project_root))
+    if not r:
+        print("no project")
+        return
+    s = load_state(r)
+    pi = s.get("project", s.get("project_info", {}))
+    d = r / ".story-system"
+    d.mkdir(parents=True, exist_ok=True)
+    m = {"route": {"primary_genre": pi.get("genre", ""), "target_platform": "fanqie"}, "versions": {"baseline_version": 1}}
+    (d / "MASTER_SETTING.json").write_text(json.dumps(m, ensure_ascii=False, indent=2), "utf-8")
     print("baseline done")
+
 def cmd_export(a):
-    r=root(Path(a.project_root))
-    chs=sorted((r/"正文").glob("第*.md"))
-    if not chs:print("no chapters");return
-    out=r/"导出";out.mkdir(exist_ok=True)
-    f=out/f"{r.name}_完本.txt"
-    with open(f,"w",encoding="utf-8") as fp:
-        for ch in chs:fp.write(ch.read_text("utf-8")+"\n\n")
-    print("exported:",f)
+    r = find_project(Path(a.project_root))
+    if not r:
+        print("no project")
+        return
+    td = r / "正文"
+    chs = sorted(td.glob("第*.md")) if td.exists() else []
+    if not chs:
+        print("no chapters")
+        return
+    out = r / "导出"
+    out.mkdir(exist_ok=True)
+    f = out / (r.name + "_完本.txt")
+    with open(str(f), "w", encoding="utf-8") as fp:
+        for ch in chs:
+            fp.write(ch.read_text("utf-8") + "\n\n")
+    print("exported:", f)
+
 def cmd_commit(a):
-    r=root(Path(a.project_root));ch=int(a.chapter)
-    d=r/".story-system"/"commits";d.mkdir(parents=True,exist_ok=True)
-    c={"chapter":ch,"timestamp":datetime.now().isoformat(),"status":"accepted"}
-    (d/f"chapter_{ch:04d}.commit.json").write_text(json.dumps(c,ensure_ascii=False,indent=2),"utf-8")
-    print(f"章节 {ch} 已提交")
-    st=load_state(r)
-    st.setdefault("progress",{})["current_chapter"]=ch
-    save_state(r,st)
+    r = find_project(Path(a.project_root))
+    if not r:
+        print("no project")
+        return
+    ch = int(a.chapter)
+    d = r / ".story-system" / "commits"
+    d.mkdir(parents=True, exist_ok=True)
+    c = {"chapter": ch, "timestamp": datetime.now().isoformat(), "status": "accepted"}
+    (d / f"chapter_{ch:04d}.commit.json").write_text(json.dumps(c, ensure_ascii=False, indent=2), "utf-8")
+    st = load_state(r)
+    st.setdefault("progress", {})["current_chapter"] = ch
+    save_state(r, st)
+
 def cmd_review(a):
-    r=root(Path(a.project_root))
-    rf=r/a.report_file;rf.parent.mkdir(parents=True,exist_ok=True)
-    rf.write_text(f"# 第 {a.chapter} 章审查报告\n\n生成: {datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n由 reviewer agent 输出。\n","utf-8")
-    print("审查报告:",rf)
+    r = find_project(Path(a.project_root))
+    if not r:
+        print("no project")
+        return
+    rf = Path(a.report_file)
+    rf.parent.mkdir(parents=True, exist_ok=True)
+    results = None
+    if a.review_results:
+        try:
+            results = json.loads(a.review_results)
+            if isinstance(results, str):
+                results = json.loads(results)
+        except Exception:
+            results = a.review_results
+    report_lines = [
+        "# 第 " + str(a.chapter) + " 章审查报告",
+        "",
+        "生成: " + datetime.now().strftime("%Y-%m-%d %H:%M"),
+        ""
+    ]
+    if results:
+        if isinstance(results, dict):
+            for k, v in results.items():
+                report_lines.append("## " + str(k))
+                report_lines.append("")
+                if isinstance(v, str):
+                    report_lines.append(v)
+                elif isinstance(v, list):
+                    for item in v:
+                        report_lines.append("- " + str(item))
+                else:
+                    report_lines.append(str(v))
+                report_lines.append("")
+    else:
+        report_lines.append("由 reviewer agent 输出。")
+    rf.write_text("\n".join(report_lines), "utf-8")
+    print("审查报告:", rf)
+    if a.save_metrics and a.metrics_out:
+        mp = Path(a.metrics_out)
+        mp.parent.mkdir(parents=True, exist_ok=True)
+        metrics = {"chapter": int(a.chapter), "timestamp": datetime.now().isoformat(), "results": results if isinstance(results, dict) else {}}
+        mp.write_text(json.dumps(metrics, ensure_ascii=False, indent=2), "utf-8")
+        print("metrics saved:", mp)
+
 def cmd_memory(a):
-    r=root(Path(a.project_root))
-    mf=r/".novel"/"project_memory.json"
+    r = find_project(Path(a.project_root))
+    if not r:
+        print("no project")
+        return
+    mf = r / ".novel" / "project_memory.json"
     if not mf.exists():
-        mf.write_text(json.dumps({"patterns":[]},ensure_ascii=False,indent=2),"utf-8")
-    mem=json.loads(mf.read_text("utf-8"))
-    p={"pattern_type":a.pattern_type,"description":a.description,"importance":a.importance or "medium"}
+        mf.write_text(json.dumps({"patterns": []}, ensure_ascii=False, indent=2), "utf-8")
+    try:
+        mem = json.loads(mf.read_text("utf-8"))
+    except Exception:
+        mem = {"patterns": []}
+    p = {"pattern_type": a.pattern_type, "description": a.description, "importance": a.importance or "medium"}
     mem["patterns"].append(p)
-    mf.write_text(json.dumps(mem,ensure_ascii=False,indent=2),"utf-8")
-    print(f"pattern saved: {p['pattern_type']}")
+    mf.write_text(json.dumps(mem, ensure_ascii=False, indent=2), "utf-8")
+    print("pattern saved: " + str(p["pattern_type"]))
+
 def main():
-    p=argparse.ArgumentParser()
-    p.add_argument("--project-root",default=os.getcwd())
-    s=p.add_subparsers(dest="cmd")
+    p = argparse.ArgumentParser()
+    p.add_argument("--project-root", default=os.getcwd())
+    s = p.add_subparsers(dest="cmd")
+    pi = s.add_parser("init", help="create a new project")
+    pi.add_argument("--title", default="")
+    pi.add_argument("--author", default="")
+    pi.add_argument("--genre", default="")
+    pi.set_defaults(func=cmd_init)
     s.add_parser("where").set_defaults(func=cmd_where)
     s.add_parser("project-status").set_defaults(func=cmd_status)
-    s.add_parser("doctor").set_defaults(func=cmd_doctor)
+    pd = s.add_parser("doctor")
+    pd.add_argument("--format", choices=["text", "json"], default="text")
+    pd.set_defaults(func=cmd_doctor)
     s.add_parser("init-contract").set_defaults(func=cmd_contract)
     s.add_parser("export").set_defaults(func=cmd_export)
-    p6=s.add_parser("chapter-commit");p6.add_argument("--chapter",required=True);p6.set_defaults(func=cmd_commit)
-    p7=s.add_parser("review-pipeline");p7.add_argument("--chapter",required=True);p7.add_argument("--report-file",required=True);p7.add_argument("--review-results");p7.add_argument("--metrics-out");p7.add_argument("--save-metrics",action="store_true");p7.set_defaults(func=cmd_review)
-    p8=s.add_parser("project-memory");p8.add_argument("action",choices=["add-pattern"]);p8.add_argument("--pattern-type",required=True);p8.add_argument("--description",required=True);p8.add_argument("--importance",default="medium");p8.set_defaults(func=cmd_memory)
-    a=p.parse_args()
-    if hasattr(a,"func"):a.func(a)
-    else:p.print_help()
-if __name__=="__main__":
+    p6 = s.add_parser("chapter-commit")
+    p6.add_argument("--chapter", required=True)
+    p6.set_defaults(func=cmd_commit)
+    p7 = s.add_parser("review-pipeline")
+    p7.add_argument("--chapter", required=True)
+    p7.add_argument("--report-file", required=True)
+    p7.add_argument("--review-results")
+    p7.add_argument("--metrics-out")
+    p7.add_argument("--save-metrics", action="store_true")
+    p7.set_defaults(func=cmd_review)
+    p8 = s.add_parser("project-memory")
+    p8.add_argument("action", choices=["add-pattern"])
+    p8.add_argument("--pattern-type", required=True)
+    p8.add_argument("--description", required=True)
+    p8.add_argument("--importance", default="medium")
+    p8.set_defaults(func=cmd_memory)
+    a = p.parse_args()
+    if hasattr(a, "func"):
+        a.func(a)
+    else:
+        p.print_help()
+
+if __name__ == "__main__":
     main()

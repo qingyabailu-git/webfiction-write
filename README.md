@@ -1,4 +1,4 @@
-﻿> **💡 项目说明**：本工具集的灵感来源于两套开源网文创作工具：
+> **💡 项目说明**：本工具集的灵感来源于两套开源网文创作工具：
 > [webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer) 和
 > [oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)。
 > 两个skill我都是用了，在我看来两者各有优势——一个强在工程化管理，一个强在情绪驱动方法论——
@@ -54,18 +54,24 @@ AI 会自动完成安装。
 
 ### 方法二：自己手动装
 
+本工具需要同时安装 skills/ 和 scripts/ 两个目录。
+推荐用方法一（让 AI 帮你装），AI 会自动处理依赖关系。
+
+手动安装命令（需要整个仓库目录）：
+
 ```bash
 # macOS / Linux
-mkdir -p ~/.codex/skills && cp -r skills/* ~/.codex/skills/
+cp -r skills/* ~/.codex/skills/
+cp -r scripts/* ~/.codex/scripts/
 
-# Windows
-if (-not (Test-Path "$env:USERPROFILE\.codex\skills\")) { New-Item -ItemType Directory "$env:USERPROFILE\.codex\skills\" }
-Copy-Item -Path "skills/*" -Destination "$env:USERPROFILE\.codex\skills\" -Recurse
+# Windows (PowerShell)
+Copy-Item -Path "skills/*" -Destination "$env:USERPROFILE\.codex\skills\" -Recurse -Force
+Copy-Item -Path "scripts/*" -Destination "$env:USERPROFILE\.codex\scripts\" -Recurse -Force
 ```
 
 ### 依赖
 
-- Python 3.8+（可选，部分辅助功能会用到）
+- Python 3.8+（可选，部分辅助功能用到 scripts/ 下的脚本）
 - 扫榜功能需要安装 `browser-cdp`（可选）
 
 ## 快速上手

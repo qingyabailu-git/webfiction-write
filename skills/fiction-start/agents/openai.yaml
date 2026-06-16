@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-start - 正式开书"
-  short_description: "检查清单后锁定基线开始正文写作"
-  default_prompt: "使用 $fiction-start 正式开书"
+  display_name: "fiction-start - 姝ｅ紡寮€涔?
+  short_description: "妫€鏌ユ竻鍗曞悗閿佸畾鍩虹嚎寮€濮嬫鏂囧啓浣?
+  default_prompt: "浣跨敤 $fiction-start 姝ｅ紡寮€涔?
 policy:
   allow_implicit_invocation: true

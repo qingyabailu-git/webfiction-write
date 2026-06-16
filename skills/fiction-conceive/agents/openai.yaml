@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-conceive - 小说构思"
-  short_description: "与 AI 讨论打磨小说核心构思"
-  default_prompt: "使用 $fiction-conceive 开始打磨我的小说构思"
+  display_name: "fiction-conceive - 灏忚鏋勬€?
+  short_description: "涓?AI 璁ㄨ鎵撶（灏忚鏍稿績鏋勬€?
+  default_prompt: "浣跨敤 $fiction-conceive 寮€濮嬫墦纾ㄦ垜鐨勫皬璇存瀯鎬?
 policy:
   allow_implicit_invocation: true

@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-import - 导入小说"
-  short_description: "导入已有小说到标准项目结构"
-  default_prompt: "使用 $fiction-import 导入已有小说"
+  display_name: "fiction-import - 瀵煎叆灏忚"
+  short_description: "瀵煎叆宸叉湁灏忚鍒版爣鍑嗛」鐩粨鏋?
+  default_prompt: "浣跨敤 $fiction-import 瀵煎叆宸叉湁灏忚"
 policy:
   allow_implicit_invocation: true
