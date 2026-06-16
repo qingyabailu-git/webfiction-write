@@ -61,6 +61,17 @@ python -X utf8 "${SCRIPTS_DIR}/fiction.py" project-memory add-pattern \
 
 ## 鍙傝€?
 鍚庣画鍐欎綔鏃?project_memory.json 鐢?fiction-write 鐨?context-agent 鍔犺浇锛?浣滀负鏂囬鍙傝€冨拰鍘嗗彶妯″紡杈撳叆銆傛湰 skill 鍙礋璐ｅ啓鍏ワ紝涓嶈礋璐ｈ鍙栥€?姝ゅ涓嶉噸澶嶅疄鐜般€?
+
+
+## 与其他技能的协作
+
+| 相关技能 | 关系 | 使用场景 |
+|---------|------|---------|
+| **fiction-write** | 写作→学习 | 写得好的一段文字，自动问是否提取模式 |
+| **fiction-review** | 审查→学习 | 审查认为成功的写法，可提取为模式 |
+| **fiction-analyze** | 拆文→学习 | 拆解出的写作公式可直接写入 project_memory |
+
+
 <!-- fiction-learn: 锟斤拷取锟缴癸拷写锟斤拷模式锟斤拷锟斤拷目锟斤拷锟斤拷锟?-->
 
 <!-- review-fix: fiction-learn-模式积累 -->
