@@ -7,6 +7,8 @@
 
 
 > 我不懂编程，这个 skill 是用 Codex 接入 DeepSeek 写的。
+>
+> 然后DeepSeek大概写出问题来了，又用GLM 5.2修的。
 # web-fiction - 网文创作工具集
 
 用 AI 帮你写网文的工具包，从构思到完本一条龙。
