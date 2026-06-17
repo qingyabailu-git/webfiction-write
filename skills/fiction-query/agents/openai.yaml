@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-query - 淇℃伅鏌ヨ"
-  short_description: "鏌ヨ璁惧畾銆佽鑹层€佷紡绗旂瓑淇℃伅"
-  default_prompt: "浣跨敤 $fiction-query 鏌ヨ灏忚璁惧畾"
+  display_name: "fiction-query - 信息查询"
+  short_description: "查询设定、角色、伏笔等信息"
+  default_prompt: "使用 $fiction-query 查询小说设定"
 policy:
   allow_implicit_invocation: true

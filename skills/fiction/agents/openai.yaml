@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction - 缃戞枃鍒涗綔宸ュ叿闆?
-  short_description: "浠庢瀯鎬濆埌瀹屾湰鐨勭綉缁滃皬璇村垱浣滃姪鎵?
-  default_prompt: "浣跨敤 $fiction 鍚姩缃戞枃鍒涗綔宸ュ叿闆嗭紝寮€濮嬭鍒掑皬璇存瀯鎬?
+  display_name: "fiction - 网文创作工具集"
+  short_description: "从构思到完本的网络小说创作助手"
+  default_prompt: "使用 $fiction 启动网文创作工具集，开始规划小说构思"
 policy:
   allow_implicit_invocation: true

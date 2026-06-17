@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-write - 姝ｆ枃鍐欎綔"
-  short_description: "鏅€?娣卞害鍙屾ā寮忕珷鑺傚啓浣?
-  default_prompt: "浣跨敤 $fiction-write 寮€濮嬪啓绗?N 绔犳鏂?
+  display_name: "fiction-write - 正文写作"
+  short_description: "普通/深度双模式章节写作"
+  default_prompt: "使用 $fiction-write 开始写第 N 章正文"
 policy:
   allow_implicit_invocation: true

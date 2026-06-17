@@ -52,7 +52,9 @@ def cmd_where(a):
     if r:
         print(str(r))
     else:
-        print("no project found")
+        import sys
+        print("no project found", file=sys.stderr)
+        sys.exit(1)
 
 def cmd_status(a):
     r = find_project(Path(a.project_root))
@@ -86,14 +88,53 @@ def cmd_doctor(a):
             if not path_obj.exists():
                 issues.append("missing: " + name)
         td = r / "正文"
+        chs = []
         if td.exists():
             chs = sorted(td.glob("第*.md"))
             if chs:
-                print("chapters: " + str(len(chs)))
+                print("chapters:", len(chs))
         tracks = ["追踪/上下文.md", "追踪/伏笔.md", "追踪/时间线.md", "追踪/角色状态.md"]
         for t in tracks:
             if not (r / t).exists():
                 issues.append("missing: " + t)
+
+        chapter_arg = getattr(a, "chapter", None)
+        if chapter_arg:
+            try:
+                ch_num = int(chapter_arg)
+                ch_file = None
+                for ch in chs:
+                    if ("第" + str(ch_num).zfill(2)) in ch.name or ("第" + str(ch_num)) in ch.name:
+                        ch_file = ch
+                        break
+                if ch_file:
+                    print("chapter", ch_num, ":", ch_file.name)
+                    if getattr(a, "deep", False):
+                        body = ch_file.read_text("utf-8")
+                        char_count = len(body)
+                        print("  chars:", char_count)
+                        if char_count < 1500:
+                            issues.append("chapter " + str(ch_num) + " too short: " + str(char_count) + " chars (< 1500)")
+                        review_file = r / "审查报告" / ("第" + str(ch_num).zfill(2) + "章审查报告.md")
+                        if not review_file.exists():
+                            issues.append("missing review for chapter " + str(ch_num))
+                        commit_file = r / ".story-system" / "commits" / ("chapter_" + str(ch_num).zfill(4) + ".commit.json")
+                        if not commit_file.exists():
+                            issues.append("missing commit for chapter " + str(ch_num))
+                else:
+                    issues.append("chapter " + str(ch_num) + " not found in 正文/")
+            except ValueError:
+                issues.append("invalid chapter number: " + str(chapter_arg))
+
+        if getattr(a, "deep", False) and not chapter_arg:
+            ss = r / ".story-system"
+            if not ss.exists():
+                issues.append("missing: .story-system/ (底本目录)")
+            else:
+                master = ss / "MASTER_SETTING.json"
+                if not master.exists():
+                    issues.append("missing: .story-system/MASTER_SETTING.json")
+
         if a.format == "json":
             print(json.dumps({"issues": issues, "ok": len(issues) == 0}, ensure_ascii=False))
         else:
@@ -128,13 +169,57 @@ def cmd_export(a):
     if not chs:
         print("no chapters")
         return
-    out = r / "导出"
-    out.mkdir(exist_ok=True)
-    f = out / (r.name + "_完本.txt")
-    with open(str(f), "w", encoding="utf-8") as fp:
+
+    fmt = getattr(a, "format", "txt") or "txt"
+    output_arg = getattr(a, "output", None)
+
+    if output_arg:
+        out_path = Path(output_arg)
+        if out_path.is_dir() or output_arg.endswith(("/", "\\")):
+            suffix = "txt" if fmt in ("txt", "fanqie") else "docx"
+            out_path = out_path / (r.name + "_完本." + suffix)
+    else:
+        out_dir = r / "导出"
+        out_dir.mkdir(exist_ok=True)
+        suffix = "txt" if fmt in ("txt", "fanqie") else "docx"
+        out_path = out_dir / (r.name + "_完本." + suffix)
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    parts = [ch.read_text("utf-8") for ch in chs]
+
+    if fmt == "fanqie":
+        merged = []
         for ch in chs:
-            fp.write(ch.read_text("utf-8") + "\n\n")
-    print("exported:", f)
+            title = ch.stem
+            body = ch.read_text("utf-8").strip()
+            if not title.startswith("第"):
+                title = "第" + title + "章"
+            merged.append(title + "\n\n" + body + "\n\n\n")
+        out_path.write_text("".join(merged), encoding="utf-8")
+    elif fmt == "docx":
+        try:
+            from docx import Document
+            doc = Document()
+            for ch in chs:
+                title = ch.stem
+                body = ch.read_text("utf-8").strip()
+                doc.add_heading(title, level=1)
+                for para in body.split("\n"):
+                    if para.strip():
+                        doc.add_paragraph(para)
+                doc.add_page_break()
+            doc.save(str(out_path))
+        except ImportError:
+            fallback = out_path.with_suffix(".txt")
+            fallback.write_text("\n\n".join(parts), encoding="utf-8")
+            print("warning: python-docx not installed, fallback to txt:", fallback)
+            out_path = fallback
+    else:
+        out_path.write_text("\n\n".join(parts), encoding="utf-8")
+
+    print("exported:", out_path)
+    print("  chapters:", len(chs))
+    print("  total chars:", sum(len(p) for p in parts))
 
 def cmd_commit(a):
     r = find_project(Path(a.project_root))
@@ -184,6 +269,25 @@ def cmd_review(a):
                 else:
                     report_lines.append(str(v))
                 report_lines.append("")
+        elif isinstance(results, list):
+            report_lines.append("## 审查结果")
+            report_lines.append("")
+            for idx, item in enumerate(results, 1):
+                if isinstance(item, dict):
+                    report_lines.append("### 条目 " + str(idx))
+                    for k, v in item.items():
+                        if isinstance(v, list):
+                            for sub in v:
+                                report_lines.append("- " + str(k) + ": " + str(sub))
+                        else:
+                            report_lines.append("- " + str(k) + ": " + str(v))
+                    report_lines.append("")
+                else:
+                    report_lines.append(str(idx) + ". " + str(item))
+            report_lines.append("")
+        else:
+            report_lines.append(str(results))
+            report_lines.append("")
     else:
         report_lines.append("由 reviewer agent 输出。")
     rf.write_text("\n".join(report_lines), "utf-8")
@@ -225,9 +329,16 @@ def main():
     s.add_parser("project-status").set_defaults(func=cmd_status)
     pd = s.add_parser("doctor")
     pd.add_argument("--format", choices=["text", "json"], default="text")
+    pd.add_argument("--chapter", default=None, help="检查指定章节")
+    pd.add_argument("--deep", action="store_true", help="深度检查（含底本一致性）")
     pd.set_defaults(func=cmd_doctor)
     s.add_parser("init-contract").set_defaults(func=cmd_contract)
-    s.add_parser("export").set_defaults(func=cmd_export)
+    pe = s.add_parser("export")
+    pe.add_argument("--format", choices=["txt", "docx", "fanqie"], default="txt",
+                    help="导出格式：txt 纯文本 / docx Word / fanqie 番茄平台规范")
+    pe.add_argument("--output", default=None,
+                    help="输出路径（目录或文件名）；不指定则写到 导出/ 下")
+    pe.set_defaults(func=cmd_export)
     p6 = s.add_parser("chapter-commit")
     p6.add_argument("--chapter", required=True)
     p6.set_defaults(func=cmd_commit)

@@ -1,4 +1,4 @@
-﻿import sys, argparse, pathlib, json
+import sys, argparse, pathlib, json
 
 def main():
     p = argparse.ArgumentParser(description='Search writing references by skill, table, query, and genre')

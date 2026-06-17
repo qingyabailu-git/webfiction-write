@@ -1,38 +1,52 @@
 ---
 name: fiction-setup
 description: |
-  缃戠粶灏忚椤圭洰鍒濆鍖栥€傚垱寤烘爣鍑嗛」鐩洰褰曠粨鏋勩€佸垵濮嬮厤缃枃浠?state.json)銆?  璁惧畾闆嗛鏋躲€傚湪杩涘叆鏋勬€?fiction-conceive)鍓嶈繍琛屻€?  瑙﹀彂鏂瑰紡锛?fiction-setup銆併€屽缓椤圭洰銆嶃€屽垵濮嬪寲銆嶃€屽噯澶囧啓涔︺€嶃€屾惌鐜銆嶃€屽府鎴戝缓涓」鐩€嶃€屼粠闆跺紑濮嬨€嶃€?metadata:
+  网络小说项目初始化。创建标准项目目录结构、初始配置文件(state.json)、
+  设定集骨架。在进入构思(fiction-conceive)前运行。
+  触发方式：/fiction-setup、「建项目」「初始化」「准备写书」「搭环境」「帮我建个项目」「从零开始」。
+metadata:
   openclaw:
     sources:
       - https://github.com/lingfengQAQ/webnovel-writer
       - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
-# fiction-setup锛氶」鐩垵濮嬪寲
+# fiction-setup：项目初始化
 
-鍒涘缓鏍囧噯椤圭洰楠ㄦ灦銆傚彧寤虹洰褰曞拰鍒濆閰嶇疆鏂囦欢锛屼笉鍋氭繁搴︽瀯鎬濄€?鏋勬€濈敱 fiction-conceive 瀹屾垚銆?
-## 鎵ц娴佺▼
+创建标准项目骨架。只建目录和初始配置文件，不做深度构思。
+构思由 fiction-conceive 完成。
 
-### Phase 1锛氱‘璁ら」鐩洰褰?
+## 执行流程
+
+### Phase 1：确认项目目录
+
 ```bash
 export PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$PWD}"
 ```
 
-- 妫€鏌ユ槸鍚﹀凡瀛樺湪 `.novel/state.json`
-- 瀛樺湪鍒欐彁绀?璇ラ」鐩凡鍒濆鍖栵紝鍙洿鎺?fiction-start 鎴?fiction-conceive"
-- 涓嶅瓨鍦ㄥ垯缁х画
-- 璇㈤棶鐢ㄦ埛涔﹀悕锛岀敓鎴愬畨鍏ㄥ寲鐩綍鍚?
-### Phase 2锛氬垱寤烘爣鍑嗙洰褰曠粨鏋?
-```
-{椤圭洰鏍箎/
-鈹溾攢 .novel/
-鈹?  鈹溾攢 state.json            # 鐢卞悗缁楠ゅ～鍏?鈹?  鈹溾攢 idea_bank.json        # 鐢?fiction-conceive 濉厖
-鈹?  鈹斺攢 tmp/                  # 杩愯鏃朵复鏃舵枃浠?鈹?鈹溾攢 璁惧畾闆?                    # 涓栫晫瑙傘€佽鑹层€佸姏閲忎綋绯荤瓑
-鈹溾攢 澶х翰/                      # 鎬荤翰銆佸嵎绾层€佺珷绾?鈹溾攢 姝ｆ枃/                      # 鍚勭珷姝ｆ枃
-鈹溾攢 杩借釜/                      # 涓婁笅鏂囥€佷紡绗斻€佹椂闂寸嚎銆佽鑹茬姸鎬?鈹溾攢 瀹℃煡鎶ュ憡/                   # review-pipeline 浜у嚭
-鈹斺攢 鎷嗘枃搴?                    # fiction-analyze 鐨勫垎鏋愪骇鍑?```
+- 检查是否已存在 `.novel/state.json`
+- 存在则提示"该项目已初始化，可直接 fiction-start 或 fiction-conceive"
+- 不存在则继续
+- 询问用户书名，生成安全化目录名
 
-### Phase 3锛氬垵濮嬪寲 state.json
+### Phase 2：创建标准目录结构
+
+```
+{项目根}/
+├─ .novel/
+│   ├─ state.json            # 由后续步骤填充
+│   ├─ idea_bank.json        # 由 fiction-conceive 填充
+│   └─ tmp/                  # 运行时临时文件
+│
+├─ 设定集/                    # 世界观、角色、力量体系等
+├─ 大纲/                      # 总纲、卷纲、章纲
+├─ 正文/                      # 各章正文
+├─ 追踪/                      # 上下文、伏笔、时间线、角色状态
+├─ 审查报告/                   # review-pipeline 产出
+└─ 拆文库/                    # fiction-analyze 的分析产出
+```
+
+### Phase 3：初始化 state.json
 
 ```json
 {
@@ -57,15 +71,18 @@ export PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$PWD}"
 }
 ```
 
-### Phase 4锛氬垱寤?.novel/active-book
+### Phase 4：创建 .novel/active-book
 
-鍐欏叆褰撳墠涔︾洰褰曞悕锛屼綔涓哄涔﹀垏鎹㈡寚閽堛€?
-### Phase 5锛氳緭鍑哄畬鎴愪俊鎭?
-- 鍒楀嚭鍒涘缓鐨勬枃浠跺拰鐩綍
-- 寤鸿涓嬩竴姝ワ細fiction-conceive锛堟瀯鎬濓級鎴?fiction-start锛堝鏋滃凡鏈夋兂娉曪級
+写入当前书目录名，作为多书切换指针。
 
-## 鍙傝€?
-璇︾粏鐩綍缁撴瀯绾﹀畾瑙?`references/`锛堟殏鏃狅紝鎸変笂杩扮‖缂栫爜锛夈€?nove-cover 鍦ㄩ渶瑕佹椂鍗曠嫭璋冪敤锛屼笉鍦ㄦ澶勭敓鎴愩€?鎵宸ュ叿 fiction-scan 闇€瑕佹祻瑙堝櫒鎿嶄綔锛岃瑙佽 skill銆?鎷嗘枃宸ュ叿 fiction-analyze 闇€瑕佹彁渚涘皬璇存枃鏈紝璇﹁璇?skill銆?
-<!-- fiction-setup: 锟斤拷始锟斤拷锟斤拷准锟斤拷目目录锟结构 -->
+### Phase 5：输出完成信息
 
-<!-- review-fix: fiction-setup-项目初始化 -->
+- 列出创建的文件和目录
+- 建议下一步：fiction-conceive（构思）或 fiction-start（如果已有想法）
+
+## 参考
+
+详细目录结构约定见 `references/`（暂无，按上述硬编码）。
+nove-cover 在需要时单独调用，不在此处生成。
+扫榜工具 fiction-scan 需要浏览器操作，详见该 skill。
+拆文工具 fiction-analyze 需要提供小说文本，详见该 skill。

@@ -1,89 +1,74 @@
 ---
 name: fiction-learn
 description: |
-  浠庡綋鍓嶄細璇濇彁鍙栨垚鍔熷啓浣滄ā寮忓苟鍐欏叆 project_memory.json銆?  绫诲瀷鍖呮嫭锛歨ook/pacing/dialogue/payoff/emotion/format/other銆?  鍚庣画鍐欎綔鏃惰嚜鍔ㄥ弬鑰冨凡绉疮鐨勬ā寮忋€?  瑙﹀彂鏂瑰紡锛?fiction-learn銆併€岃浣忚繖涓啓娉曘€嶃€屽涔犮€嶃€岃繖涓啓娉曞ソ銆嶃€屾妸杩欐嫑瀛樿捣鏉ャ€嶃€屼互鍚庨兘杩欎箞鍐欍€嶃€?metadata:
+  从当前会话提取成功写作模式并写入 project_memory.json。
+  类型包括：hook/pacing/dialogue/payoff/emotion/format/other。
+  后续写作时自动参考已积累的模式。
+  触发方式：/fiction-learn、「记住这个写法」「学习」「这个写法好」「把这招存起来」「以后都这么写」。
+metadata:
   openclaw:
     sources:
       - https://github.com/lingfengQAQ/webnovel-writer
       - https://github.com/worldwonderer/oh-story-claudecode
 ---
 
-# fiction-learn锛氬啓浣滄ā寮忔彁鍙?
-浠庡璇濅腑鎻愬彇鍙鐢ㄧ殑鍐欎綔妯″紡锛岃拷鍔犲埌 project_memory.json銆?璁╃郴缁熻秺鍐欒秺鎳備綘锛岃嚜鍔ㄧН绱釜浜洪鏍笺€?
+# fiction-learn：写作模式提取
 
+从对话中提取可复用的写作模式，追加到 project_memory.json。
+让系统越写越懂你，自动积累个人风格。
 
-## 写作视角引导
+## 执行流程
 
-学习不是为了存储，而是为了让下一次写得更好。提取模式时帮用户思考：
+### 1. 解析项目根
 
-1. **这次哪里写得好？** — 具体到某一段、某个写法，不泛泛说"这章不错"
-2. **这个好写法可以用在什么场景？** — 帮用户总结适用条件（比如"对话打脸场景适用"）
-3. **下次写类似场景时，主动提醒用户：之前你有个好用的写法** — 模式存了就要用
-
-提取完模式后告知用户：「下次写 XXX 场景时，我会提醒你用这个模式。」
-
-## 鎵ц娴佺▼
-
-### 1. 瑙ｆ瀽椤圭洰鏍?
 ```bash
 export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
 ```
 
-### 2. 瑙ｆ瀽鐢ㄦ埛杈撳叆
+### 2. 解析用户输入
 
-- 鐢ㄦ埛杈撳叆涓虹┖ 鈫?鍙栨湰娆″璇濅腑琚敤鎴疯鍙殑鍐欐硶
-- 鐢ㄦ埛鏈夋樉寮忚緭鍏?鈫?鐩存帴浣跨敤
+- 用户输入为空 → 取本次对话中被用户认可的写法
+- 用户有显式输入 → 直接使用
 
-### 3. 褰掔被 pattern_type
+### 3. 归类 pattern_type
 
-| 绫诲瀷 | 绀轰緥 |
+| 类型 | 示例 |
 |------|------|
-| hook | "寮€绡囩敤鍐茬獊鍓嶇疆锛岀涓€鍙ュ氨鏄煕鐩? |
-| pacing | "杩囨浮绔犺妭鐢ㄥ弻绾垮苟琛屾潵淇濇寔鑺傚" |
-| dialogue | "瀵硅瘽閲岀敤娼滃彴璇嶄唬鏇跨洿鐧? |
-| payoff | "浼忕瑪閽╁瓙瑕佸湪 10 绔犲唴鍥炴敹" |
-| emotion | "铏愮偣鏃跺厛寤虹珛鐢滆湝鍐嶆墦鐮? |
-| format | "瀵硅瘽鍗曠嫭鎴愯锛屼笉鐢ㄥ紩鍙? |
-| other | 鏃犳硶褰掔被鐨?|
+| hook | "开篇用冲突前置，第一句就是矛盾" |
+| pacing | "过渡章节用双线并行来保持节奏" |
+| dialogue | "对话里用潜台词代替直白" |
+| payoff | "伏笔钩子要在 10 章内回收" |
+| emotion | "虐点时先建立甜蜜再打破" |
+| format | "对话单独成行，不用引号" |
+| other | 无法归类的 |
 
-### 4. 鍐欏叆 project_memory.json
+### 4. 写入 project_memory.json
 
 ```bash
-python -X utf8 "${SCRIPTS_DIR}/fiction.py" project-memory add-pattern \
-  --pattern-type "{褰掔被}" \
-  --description "{瀹屾暣鎻忚堪}" \
-  --category "{鍒嗙被锛屽彲绌簘" \
-  --importance "{high|medium|low}"
+python -X utf8 "${SCRIPTS_DIR}/fiction.py" project-memory add-pattern   --pattern-type "{归类}"   --description "{完整描述}"   --category "{分类，可空}"   --importance "{high|medium|low}"
 ```
 
-瑕佹眰锛?- 鍙拷鍔狅紝涓嶅垹闄ゆ棫璁板綍
-- pattern_type + description 瀹屽叏鐩稿悓鏃惰烦杩囷紙鍘婚噸锛?- 閮ㄥ垎鐩镐技涓嶅幓閲?
-## 鎴愬姛鏍囧噯
+要求：
+- 只追加，不删除旧记录
+- pattern_type + description 完全相同时跳过（去重）
+- 部分相似不去重
 
-- project_memory.json 瀛樺湪涓旀牸寮忓悎娉?- 鏂?pattern 宸茶拷鍔犲埌 patterns 鏁扮粍
-- 杈撳嚭鍖呭惈 status: success
+## 成功标准
 
-## 澶辫触鎭㈠
+- project_memory.json 存在且格式合法
+- 新 pattern 已追加到 patterns 数组
+- 输出包含 status: success
 
-| 鏁呴殰 | 鎭㈠鏂瑰紡 |
+## 失败恢复
+
+| 故障 | 恢复方式 |
 |------|---------|
-| project_memory.json 涓嶅瓨鍦?| 鑴氭湰鑷姩鍒濆鍖?{"patterns": []} |
-| JSON 瑙ｆ瀽澶辫触 | 涓嶅啓鍏ヨ剰鏁版嵁锛屽憡鐭ョ敤鎴锋枃浠舵崯鍧?|
-| state.json 缂哄け鏃犳硶鍙栫珷鑺傚彿 | 鐢?source_chapter: null 璺宠繃锛屼笉闃绘柇 |
+| project_memory.json 不存在 | 脚本自动初始化 {"patterns": []} |
+| JSON 解析失败 | 不写入脏数据，告知用户文件损坏 |
+| state.json 缺失无法取章节号 | 用 source_chapter: null 跳过，不阻断 |
 
-## 鍙傝€?
-鍚庣画鍐欎綔鏃?project_memory.json 鐢?fiction-write 鐨?context-agent 鍔犺浇锛?浣滀负鏂囬鍙傝€冨拰鍘嗗彶妯″紡杈撳叆銆傛湰 skill 鍙礋璐ｅ啓鍏ワ紝涓嶈礋璐ｈ鍙栥€?姝ゅ涓嶉噸澶嶅疄鐜般€?
+## 参考
 
-
-## 与其他技能的协作
-
-| 相关技能 | 关系 | 使用场景 |
-|---------|------|---------|
-| **fiction-write** | 写作→学习 | 写得好的一段文字，自动问是否提取模式 |
-| **fiction-review** | 审查→学习 | 审查认为成功的写法，可提取为模式 |
-| **fiction-analyze** | 拆文→学习 | 拆解出的写作公式可直接写入 project_memory |
-
-
-<!-- fiction-learn: 锟斤拷取锟缴癸拷写锟斤拷模式锟斤拷锟斤拷目锟斤拷锟斤拷锟?-->
-
-<!-- review-fix: fiction-learn-模式积累 -->
+后续写作时 project_memory.json 由 fiction-write 的 context-agent 加载，
+作为文风参考和历史模式输入。本 skill 只负责写入，不负责读取。
+此处不重复实现。

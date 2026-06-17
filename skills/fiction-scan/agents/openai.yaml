@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-scan - 缃戞枃鎵"
-  short_description: "鍒嗘瀽鎺掕姒滄暟鎹壘鐑棬棰樻潗"
-  default_prompt: "浣跨敤 $fiction-scan 鏌ョ湅鐣寗骞冲彴瓒嬪娍"
+  display_name: "fiction-scan - 网文扫榜"
+  short_description: "分析排行榜数据找热门题材"
+  default_prompt: "使用 $fiction-scan 查看番茄平台趋势"
 policy:
   allow_implicit_invocation: true

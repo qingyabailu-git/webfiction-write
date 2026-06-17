@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-plan - 灏忚瑙勫垝"
-  short_description: "鍗疯妭鎷嶈〃銆佹椂闂寸嚎涓庣珷缁嗙翰瑙勫垝"
-  default_prompt: "浣跨敤 $fiction-plan 寮€濮嬭鍒掑皬璇寸珷鑺?
+  display_name: "fiction-plan - 小说规划"
+  short_description: "卷节拍表、时间线与章细纲规划"
+  default_prompt: "使用 $fiction-plan 开始规划小说章节"
 policy:
   allow_implicit_invocation: true

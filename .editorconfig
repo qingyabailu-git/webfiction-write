@@ -1,0 +1,22 @@
+# EditorConfig: https://editorconfig.org
+# 强制所有文本文件使用 UTF-8 无 BOM 编码，避免 GBK 污染
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.py]
+indent_size = 4
+
+[*.md]
+# Markdown 保留尾随空格（两个空格表示换行）
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab

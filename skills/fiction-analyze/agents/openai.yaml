@@ -1,6 +1,6 @@
 interface:
-  display_name: "fiction-analyze - 缃戞枃鎷嗚В"
-  short_description: "鎷嗚В鐖嗘灏忚鐨勭粨鏋勫拰鍐欐硶"
-  default_prompt: "浣跨敤 $fiction-analyze 鎷嗚В鍙傝€冧功"
+  display_name: "fiction-analyze - 网文拆解"
+  short_description: "拆解爆款小说的结构和写法"
+  default_prompt: "使用 $fiction-analyze 拆解参考书"
 policy:
   allow_implicit_invocation: true
