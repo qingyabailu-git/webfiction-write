@@ -2,16 +2,10 @@
 name: fiction-start
 description: |
   正式开书。运行开书前检查清单，确认构思充分后锁定基线、初始化 Story System 底本。
-  开书后设定集锁定为基线，修改需走 fiction-revise 变更传播流程。
+  开书后设定集锁定为基线，修改需走 fiction-write 内建的变更传播流程。
   开书前不支持写正文。
   触发方式：/fiction-start、「开书」「正式开始」「锁定基线」「开始写作」「准备好了，开始吧」「可以动笔了」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-start：正式开书
 
 这是一个心理仪式 + 状态切换。开书前用户可自由调整设定/大纲/扫榜/拆书。
@@ -117,3 +111,13 @@ python -X utf8 "${SCRIPTS_DIR}/fiction.py" init-contract \
 
 Story System 底本初始化由 `scripts/fiction.py` 的 `init-contract` 子命令完成。
 底本刷新由 fiction-plan 和 fiction-write 负责，start 只做初始建立。
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

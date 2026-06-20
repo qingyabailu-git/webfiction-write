@@ -5,13 +5,7 @@ description: |
   类型包括：hook/pacing/dialogue/payoff/emotion/format/other。
   后续写作时自动参考已积累的模式。
   触发方式：/fiction-learn、「记住这个写法」「学习」「这个写法好」「把这招存起来」「以后都这么写」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-learn：写作模式提取
 
 从对话中提取可复用的写作模式，追加到 project_memory.json。
@@ -22,7 +16,7 @@ metadata:
 ### 1. 解析项目根
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CODEX_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$PWD}}" where)"
 ```
 
 ### 2. 解析用户输入
@@ -72,3 +66,13 @@ python -X utf8 "${SCRIPTS_DIR}/fiction.py" project-memory add-pattern   --patter
 后续写作时 project_memory.json 由 fiction-write 的 context-agent 加载，
 作为文风参考和历史模式输入。本 skill 只负责写入，不负责读取。
 此处不重复实现。
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

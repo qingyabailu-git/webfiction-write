@@ -5,13 +5,7 @@ description: |
   每卷写前做一次卷规划，每 10 章写完后系统提示补下一批细纲。
   执行后同步 Story System 底本。
   触发方式：/fiction-plan {卷号或章范围}、「规划第X卷」「补细纲」「做大纲」「规划」「帮我规划一下」「后面怎么写」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-plan：小说规划
 
 基于总纲增量细化卷/时间线/章纲，同步 Story System 底本。
@@ -35,7 +29,7 @@ metadata:
 ### Step 1：加载项目数据
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CODEX_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$PWD}}" where)"
 cat "$PROJECT_ROOT/.novel/state.json"
 cat "$PROJECT_ROOT/大纲/总纲.md"
 GENRE="$(python -X utf8 -c "import json; s=json.load(open('${PROJECT_ROOT}/.novel/state.json',encoding='utf-8')); pi=s.get('project_info',{}) or s.get('project',{}); print(pi.get('genre',''))")"
@@ -132,3 +126,13 @@ fiction-write 执行时自动读取本章细纲，作为写作依据。
 
 节拍表模板、时间线模板为内置模式。
 写作技法类参考在 fiction-write 阶段加载，此处不加载。
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

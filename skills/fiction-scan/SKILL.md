@@ -4,13 +4,7 @@ description: |
   网文扫榜。分析起点、番茄、晋江等平台排行榜数据，提炼市场趋势与热门题材。
   脚本采集优先，采集失败自动降级。起点默认不需要浏览器，番茄需要 browser-cdp。
   触发方式：/fiction-scan、「扫榜」「排行」「什么火」「趋势」「选题」「最近流行什么」「市场怎么样」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-scan：网文扫榜
 
 你是网络小说市场分析师。基于榜单样本识别市场格局，输出可执行的选题建议。
@@ -223,3 +217,13 @@ URL 参数：/rank/{channel}_{type}_{cat_id}，channel 0=女频/1=男频，type 
 爬虫脚本配合 browser-cdp 使用。未安装 browser-cdp 时自动降级为内置知识分析。
 
 ---
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

@@ -75,6 +75,15 @@ Copy-Item -Path "scripts/*" -Destination "$env:USERPROFILE\.codex\scripts\" -Rec
 - Python 3.8+（可选，部分辅助功能用到 scripts/ 下的脚本）
 - 扫榜功能需要安装 `browser-cdp`（可选）
 
+### 环境变量兼容性
+
+本工具同时兼容 **Codex** 和 **Claude Code** 两种环境。SKILL.md 中的脚本会按以下优先级查找环境变量：
+
+- 项目根目录：先查 `CODEX_PROJECT_DIR`，没有则查 `CLAUDE_PROJECT_DIR`，都没有则用 `$PWD`
+- 插件根目录：先查 `CODEX_PLUGIN_ROOT`，没有则查 `CLAUDE_PLUGIN_ROOT`
+
+无论用哪种环境都能正常工作，无需额外配置。
+
 ## 快速上手
 
 不需要记命令，直接跟 AI 聊天就行：

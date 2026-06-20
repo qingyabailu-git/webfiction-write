@@ -4,13 +4,7 @@ description: |
   导出与完本归档。合并所有正文为 .txt/.docx 格式，
   可选去格式、加目录、生成封面。完本后一键归档项目文件。
   触发方式：/fiction-export、「导出」「完本」「归档」「下载」「导出txt」「我要完本了」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-export：导出与完本归档
 
 将正文合并为可供发布/备份/分享的格式。
@@ -87,3 +81,13 @@ python -X utf8 "${SCRIPTS_DIR}/fiction.py" export \
 本 skill 的 `export` 子命令默认遵守上述规范。
 使用 `--format fanqie` 参数可自动适配番茄平台格式要求。
 ```
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

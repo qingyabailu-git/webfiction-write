@@ -4,13 +4,7 @@ description: |
   小说构思与共创。引导用户与 AI 共同打磨小说核心构思，包括题材定位、角色设计、
   世界观框架、核心冲突、文风定位等。在正式开书(fiction-start)前完成。
   触发方式：/fiction-conceive、「聊聊构思」「帮我打磨设定」「讨论主角」「文风讨论」「构思共创」「我想写个什么样的故事」「帮我设计角色」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-conceive：小说构思共创
 
 你不是表单收集器，而是创意讨论伙伴。用户可能只有模糊想法，也可能已有完整设定。
@@ -125,3 +119,13 @@ start 时会检查：主角/冲突/世界观是否完成。未完成则提示建
 
 写作技法类参考在写作阶段由 fiction-write 加载。此处不加载。
 扫榜/拆文需求自动路由到 fiction-scan / fiction-analyze。
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

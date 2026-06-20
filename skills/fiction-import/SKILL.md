@@ -5,13 +5,7 @@ description: |
   兼容后续 fiction-plan、fiction-write 流程。内部复用 fiction-analyze 的拆解管线，
   按篇幅自动分流。
   触发方式：/fiction-import、「导入小说」「反向解析」「导入」「把我的书导进来」「我有现成的稿子」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-import：导入已有小说
 
 将已写好但未按本工具集结构组织的项目反向解析为标准格式。
@@ -34,7 +28,7 @@ metadata:
 ### Step 2：建立目标目录
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" init --title "{书名}" --author "{作者}" --genre "{题材}" "${CLAUDE_PROJECT_DIR:-$PWD}")"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" init --title "{书名}" --author "{作者}" --genre "{题材}" "${CODEX_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$PWD}}")"
 ```
 
 ### Step 3：解析源文件
@@ -96,3 +90,13 @@ export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" init --title "
   2. fiction-conceive 打磨设定
   3. fiction-plan 1 开始正式规划
 ```
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

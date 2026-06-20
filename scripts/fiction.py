@@ -1,6 +1,8 @@
-import argparse, json, os
+import argparse, json, os, sys
 from pathlib import Path
 from datetime import datetime
+
+SCHEMA_VERSION = 1
 
 def find_project(start):
     """只读查找项目根目录，找不到返回 None，不创建任何文件"""
@@ -15,6 +17,27 @@ def find_project(start):
                 return child
     return None
 
+def migrate_state(state):
+    """迁移旧版 state.json 到当前 schema。
+
+    历史版本：
+      - 无 schema_version 字段：早期版本，可能用 'project_info' 而非 'project'
+      - schema_version=1：当前版本，统一用 'project'
+
+    返回 (migrated_state, changed) 元组。changed=True 表示发生了迁移需要持久化。
+    幂等，可重复调用。
+    """
+    if not isinstance(state, dict):
+        return state, False
+    # 已是当前版本
+    if state.get("schema_version") == SCHEMA_VERSION:
+        return state, False
+    # 旧版迁移：project_info -> project
+    if "project_info" in state and "project" not in state:
+        state["project"] = state.pop("project_info")
+    state["schema_version"] = SCHEMA_VERSION
+    return state, True
+
 def init_project(start, title="", author="", genre=""):
     """显式创建新项目，返回项目根"""
     c = Path(start).resolve()
@@ -22,6 +45,7 @@ def init_project(start, title="", author="", genre=""):
     novel_dir.mkdir(parents=True, exist_ok=True)
     state_file = novel_dir / "state.json"
     init_state = {
+        "schema_version": SCHEMA_VERSION,
         "project": {"book_name": title, "author": author, "genre": genre},
         "progress": {},
         "versions": {"baseline_version": 1}
@@ -33,7 +57,12 @@ def load_state(r):
     f = r / ".novel" / "state.json"
     if f.exists():
         try:
-            return json.loads(f.read_text("utf-8"))
+            state = json.loads(f.read_text("utf-8"))
+            # 自动迁移旧版 schema（含 project_info 兼容），持久化迁移结果
+            migrated, changed = migrate_state(state)
+            if changed:
+                save_state(r, migrated)
+            return migrated
         except Exception:
             return {}
     return {}
@@ -52,7 +81,6 @@ def cmd_where(a):
     if r:
         print(str(r))
     else:
-        import sys
         print("no project found", file=sys.stderr)
         sys.exit(1)
 
@@ -65,7 +93,8 @@ def cmd_status(a):
     if not s:
         print("no state")
         return
-    pi = s.get("project", s.get("project_info", {}))
+    # load_state 已自动迁移 'project_info' -> 'project'，这里直接用 'project'
+    pi = s.get("project", {})
     pr = s.get("progress", {})
     print("book:", pi.get("book_name", pi.get("title", "?")))
     print("genre:", pi.get("genre", "?"))
@@ -152,7 +181,8 @@ def cmd_contract(a):
         print("no project")
         return
     s = load_state(r)
-    pi = s.get("project", s.get("project_info", {}))
+    # load_state 已自动迁移，直接用 'project'
+    pi = s.get("project", {})
     d = r / ".story-system"
     d.mkdir(parents=True, exist_ok=True)
     m = {"route": {"primary_genre": pi.get("genre", ""), "target_platform": "fanqie"}, "versions": {"baseline_version": 1}}

@@ -4,13 +4,7 @@ description: |
   网络小说项目初始化。创建标准项目目录结构、初始配置文件(state.json)、
   设定集骨架。在进入构思(fiction-conceive)前运行。
   触发方式：/fiction-setup、「建项目」「初始化」「准备写书」「搭环境」「帮我建个项目」「从零开始」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-setup：项目初始化
 
 创建标准项目骨架。只建目录和初始配置文件，不做深度构思。
@@ -21,7 +15,7 @@ metadata:
 ### Phase 1：确认项目目录
 
 ```bash
-export PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$PWD}"
+export PROJECT_ROOT="${CODEX_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$PWD}}"
 ```
 
 - 检查是否已存在 `.novel/state.json`
@@ -86,3 +80,13 @@ export PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$PWD}"
 nove-cover 在需要时单独调用，不在此处生成。
 扫榜工具 fiction-scan 需要浏览器操作，详见该 skill。
 拆文工具 fiction-analyze 需要提供小说文本，详见该 skill。
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

@@ -4,13 +4,7 @@ description: |
   查询项目设定、角色、力量体系、势力、伏笔等信息。支持角色历史状态、实体关系、
   世界规则、伏笔/open-loop 查询。只读操作，不修改任何项目文件。
   触发方式：/fiction-query {查询内容}、「查角色」「查伏笔」「查设定」「什么状态」「那个角色叫啥来着」「进展到哪了」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-query：信息查询
 
 查询项目中的设定、状态、关系信息。只读，不修改任何文件。
@@ -31,7 +25,7 @@ metadata:
 ### 1. 解析项目根
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CODEX_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$PWD}}" where)"
 ```
 
 ### 2. 识别查询类型
@@ -145,3 +139,13 @@ fiction-query/            # 本技能目录
 - 境界划分：练气 → 筑基 → 金丹 → 元婴
 - 当前主角境界：筑基期三层（从追踪/角色状态.md 读取）
 ```
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

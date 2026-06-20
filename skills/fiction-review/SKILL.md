@@ -4,13 +4,7 @@ description: |
   质量审查。使用审查模型评估章节质量，生成审查报告并写回审查指标。
   支持单章、批量（1-5）、整卷（--volume N）审查。
   触发方式：/fiction-review {章号或范围}、「审查」「审一下」「检查质量」「review」「帮我看下写得怎么样」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-review：质量审查
 
 使用审查模型评估章节质量，生成结构化报告和审查指标。
@@ -20,7 +14,7 @@ metadata:
 ### Step 1：解析项目根
 
 ```bash
-export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CLAUDE_PROJECT_DIR:-$PWD}" where)"
+export PROJECT_ROOT="$(python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${CODEX_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$PWD}}" where)"
 ```
 
 ### Step 2：加载审查参考
@@ -85,3 +79,13 @@ reviewer schema 由 reviewer agent 自带定义，本 skill 不展开。
 阻断覆盖指引见 blocking-override-guidelines（由 reviewer 引用）。
 批量审查逐章独立执行，不互相影响结果。
 审查报告格式由 review-pipeline 决定，本 skill 不定义。
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

@@ -4,13 +4,7 @@ description: |
   项目体检诊断。只读检查项目目录、文件、JSON、底本体系完整性。
   发现缺失或异常项时解释影响和修复建议，不自动修复。
   触发方式：/fiction-doctor、「体检」「诊断」「检查项目」「项目状态」「帮我看看这个项目有没有问题」「检查一下文件」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-doctor：项目体检诊断
 
 只读诊断当前项目：确认所处阶段应有的文件是否完整。
@@ -24,8 +18,8 @@ metadata:
 ## 执行
 
 ```bash
-export WORKSPACE_ROOT="${CLAUDE_PROJECT_DIR:-$PWD}"
-export SCRIPTS_DIR="${CLAUDE_PLUGIN_ROOT:?}/scripts"
+export WORKSPACE_ROOT="${CODEX_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$PWD}}"
+export SCRIPTS_DIR="${CODEX_PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT:?}}/scripts"
 
 # 短状态
 python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" project-status --format summary
@@ -98,3 +92,13 @@ python -X utf8 "${SCRIPTS_DIR}/fiction.py" --project-root "${WORKSPACE_ROOT}" do
   建议：运行 fiction-export characters 检查清单，或手动补卡
 ...
 ```
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。

@@ -4,13 +4,7 @@ description: |
   润色与去 AI 味。对已有正文执行格式规范化、banned-words 扫描替换、
   AI 腔检测与人工化改写、文风一致性检查。支持单章和批量范围。
   触发方式：/fiction-polish {章号或范围}、「润色」「去AI味」「格式」「标点规范」「这篇太AI了」「帮我顺一下文字」。
-metadata:
-  openclaw:
-    sources:
-      - https://github.com/lingfengQAQ/webnovel-writer
-      - https://github.com/worldwonderer/oh-story-claudecode
 ---
-
 # fiction-polish：润色与去 AI 味
 
 独立于 fiction-write 的 Step 4，专门用于用户想单独润色场景。
@@ -88,3 +82,13 @@ fiction-polish 是独立的外置版本，用于单独调用。
 两者执行效果一致，不应出现同一内容两个不同结果。
 如果 fiction-write 时已执行过 Step 4，再次跑 fiction-polish 不会重复修改。
 （但如果用户手动改过正文，fiction-polish 会基于最新版本再次处理。）
+---
+
+## 致谢
+
+本 skill 的开发参考了以下开源项目的思路与实现：
+
+- [lingfengQAQ/webnovel-writer](https://github.com/lingfengQAQ/webnovel-writer)
+- [worldwonderer/oh-story-claudecode](https://github.com/worldwonderer/oh-story-claudecode)
+
+感谢原作者的开源贡献。
