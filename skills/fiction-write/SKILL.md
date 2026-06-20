@@ -38,7 +38,7 @@ description: |
 建议使用 Deep 深度模式，以确保：
   · 留下完整的底本基线
   · 审查报告与 metrics 落库
-  · data-agent 提取初始事实供后续查询
+  · 提取初始事实供后续查询（LLM 直接执行）
 
 本次使用 Deep 模式？[Y/n]
 ```
@@ -118,25 +118,27 @@ Step 5: 里程碑检查（自动，无交互）
 
 ## Deep 模式增量
 
-在 Normal 流程基础上增加：
+在 Normal 流程基础上增加（以下"agent"指由主线 LLM 直接扮演的角色，非独立进程）：
 
 ```
-Step 1 → context-agent 生成完整写作任务书
+Step 1 → context-agent（LLM 扮演）生成完整写作任务书
           （含全部活跃伏笔、底本约束、文风指引）
 
 Step 3 → 审查报告写入 审查报告/第{章号}章审查报告.md
        → review metrics 写入 index.db
 
-Step 4 → data-agent 提取三份 artifact:
+Step 4 → data-agent（LLM 扮演）提取三份 artifact:
           fulfillment_result.json（目标完成度）
           disambiguation_result.json（消歧义）
           extraction_result.json（本章新事物）
        → chapter-commit（含 data-artifacts）
-       → projection 五层刷新（state/index/summary/memory/vector）
-       → postcommit gate 校验
+       → projection 五层刷新（state/index/summary/memory/vector，由 LLM 直接更新对应文件）
+       → postcommit gate 校验（LLM 检查一致性）
 
 Step 5 → 三段式 user-report 最终总结
 ```
+
+> **实现说明**：本 skill 描述的 context-agent / data-agent / reviewer / projection / postcommit gate 均由主线 LLM 直接执行，scripts/fiction.py 仅提供 chapter-commit（持久化 commit 文件）和 review-pipeline（写审查报告）的辅助脚本支持。
 
 ## 里程碑提示（写完每章后自动触发）
 
@@ -320,101 +322,12 @@ Normal 模式完成后的报告：
 | 修改范围超过一章（"第 5-8 章都要改"） | Rewrite |
 | 修改波及设定集（"世界观改了""主角能力改"） | Rewrite（广播） |
 
-### Re-craft 模式（大改，核心设计）
+### 详细流程
 
-```
-Step 1: 分析变更
-  系统对比新旧版本，提取"变更事实清单"
-  ┌─ 变更事实清单 ──────────────┐
-  │ 1. [人名] 配角 "张三" → "李四"  │
-  │ 2. [关系] 主角与张三"敌对"→"盟友"│
-  │ 3. [情节] 第 7 章结尾改变         │
-  │ 4. [伏笔] "张三是卧底" → 删除     │
-  └────────────────────────────┘
+Re-craft 六步流程、Rewrite 六步流程、写回规则、撤销/回滚、修改模式参考详见：
+→ [`references/revise-modes.md`](references/revise-modes.md)
 
-Step 2: 执行修改
-  → 修改目标章节正文
-
-Step 3: 影响范围探测（核心步骤）
-  系统扫描后续已写章节，检测是否存在引用变更项：
-  ┌─ 影响范围报告 ──────────────────┐
-  │ 🔴 第 8 章：引用了被改情节 → 需修改 │
-  │ 🟡 第 9 章：提到旧名 1 次 → 换名   │
-  │ 🟢 第 10 章：无关                   │
-  │ 🔴 设定集/角色卡/张三.md：需改名    │
-  │ 🔴 追踪/伏笔.md：一条伏笔需删除     │
-  └────────────────────────────────┘
-
-  → 只读每章摘要做快速过滤，命中再读正文确认
-  → 扫描范围控制在 10 章以内
-
-Step 4: 用户确认影响范围（展示报告，默认全部选中）
-
-Step 5: 批量执行变更传播
-  系统自动：
-  → 修改受影响的后续章节（人名替换/情节调整）
-  → 更新设定集相关文件
-  → 更新追踪系统（伏笔/时间线/角色状态）
-  → 更新大纲相关条目
-  → 标记被修改的章节为 "revised"
-
-Step 6: 全量校验
-  → 对受影响章节批量跑轻量 reviewer（只查连续性问题）
-  → 一致性检查
-  → 伏笔闭环检查
-```
-
-### Rewrite 模式（重写）
-
-```
-Step 1: 确认范围
-  → 全章重写还是多章重写？
-  → 章纲是否需要先调整？
-
-Step 2: 可选的细纲修改
-  → 如果情节走向变了，先编辑章纲 → 用户确认
-
-Step 3: 执行重写
-  → 进入本 skill 的 Deep 模式完整流程
-  → context-agent 重新整理上下文
-  → 起草正文
-
-Step 4: 变更传播
-  → 同 Re-craft Step 3-6
-  → 范围更广（可能波及拉取后续所有章节）
-
-Step 5: 底本刷新
-  → data-agent 重新提取本章事实
-  → chapter-commit 覆盖原 commit
-  → projection 五层全部刷新
-
-Step 6: 回填大纲
-  → 将最终正文的结构化节点写回章纲
-```
-
-### 修改模式的写回规则
-
-修改完成后系统自动写回。写回范围由传播引擎决定，用户不需要逐项确认。
-
-唯一例外：
-- 跨卷传播时弹提示（"第 2 卷也可能受影响，是否继续扫描？"）
-- 文件在上次 git commit 后有用户手动编辑，先问是否保留
-
-### 撤销 / 回滚
-
-- 每次 chapter-commit 或修改执行前自动打 git tag（`pre-revise-ch{章号}`）
-- 用户不满意可运行：`git checkout pre-revise-ch{章号} {受影响的文件}`
-- 恢复后重新跑 data-agent 刷新底本
-- 这是一个补丁级安全网，不是完整分支管理
-
-### 修改模式参考
-
-变更传播引擎依赖每章的摘要文件（.novel/summaries/ch{章号}.md）做快速过滤。
-Normal 和 Deep 模式下每章写完都会自动生成一句话摘要，确保变更传播始终可快速扫描。
-如遇极端情况摘要缺失，退化为逐章读正文判断（慢但可用）。
-写回规则与正文写作一致（静默执行，仅跨卷确认）。
-轻量 reviewer 同 fiction-review 的 reviewer schema，但只检查连续性问题维度。
-章节回滚的安全网由 git tag 提供，不依赖专用脚本。
+进入修改模式时加载该文件获取完整步骤。
 ---
 
 ## 致谢

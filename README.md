@@ -75,6 +75,16 @@ Copy-Item -Path "scripts/*" -Destination "$env:USERPROFILE\.codex\scripts\" -Rec
 - Python 3.8+（可选，部分辅助功能用到 scripts/ 下的脚本）
 - 扫榜功能需要安装 `browser-cdp`（可选）
 
+### Windows 用户注意
+
+SKILL.md 中的脚本使用 bash 语法（`export`、`$(...)`、`${VAR:-default}`），Windows 用户需要以下任一环境：
+
+- **Git Bash**（推荐，安装 Git for Windows 时自带）
+- **WSL**（Windows Subsystem for Linux）
+- **MSYS2** 或 **Cygwin**
+
+PowerShell 和 CMD 无法直接运行这些脚本。建议安装 [Git for Windows](https://git-scm.com/download/win) 后使用自带的 Git Bash。
+
 ### 环境变量兼容性
 
 本工具同时兼容 **Codex** 和 **Claude Code** 两种环境。SKILL.md 中的脚本会按以下优先级查找环境变量：

@@ -341,10 +341,72 @@ def cmd_memory(a):
         mem = json.loads(mf.read_text("utf-8"))
     except Exception:
         mem = {"patterns": []}
-    p = {"pattern_type": a.pattern_type, "description": a.description, "importance": a.importance or "medium"}
-    mem["patterns"].append(p)
-    mf.write_text(json.dumps(mem, ensure_ascii=False, indent=2), "utf-8")
-    print("pattern saved: " + str(p["pattern_type"]))
+    patterns = mem.setdefault("patterns", [])
+
+    if a.action == "add-pattern":
+        p = {"pattern_type": a.pattern_type, "description": a.description, "importance": a.importance or "medium"}
+        # 去重：pattern_type + description 完全相同则跳过
+        for existing in patterns:
+            if existing.get("pattern_type") == p["pattern_type"] and existing.get("description") == p["description"]:
+                print("pattern already exists, skipped")
+                return
+        patterns.append(p)
+        mf.write_text(json.dumps(mem, ensure_ascii=False, indent=2), "utf-8")
+        print("pattern saved: " + str(p["pattern_type"]))
+
+    elif a.action == "list-patterns":
+        if not patterns:
+            print("(no patterns yet)")
+            return
+        for idx, p in enumerate(patterns, 1):
+            print(f"{idx}. [{p.get('pattern_type', '?')}] {p.get('description', '?')[:60]} (importance: {p.get('importance', 'medium')})")
+
+    elif a.action == "search-pattern":
+        if not patterns:
+            print("(no patterns yet)")
+            return
+        keyword = (a.keyword or "").lower()
+        ptype = (a.pattern_type or "").lower()
+        hits = []
+        for idx, p in enumerate(patterns, 1):
+            desc = p.get("description", "").lower()
+            pt = p.get("pattern_type", "").lower()
+            if keyword and keyword in desc:
+                hits.append((idx, p))
+            elif ptype and ptype == pt:
+                hits.append((idx, p))
+            elif not keyword and not ptype:
+                hits.append((idx, p))
+        if not hits:
+            print("(no matches)")
+            return
+        for idx, p in hits:
+            print(f"{idx}. [{p.get('pattern_type', '?')}] {p.get('description', '?')} (importance: {p.get('importance', 'medium')})")
+
+    elif a.action == "delete-pattern":
+        if not patterns:
+            print("(no patterns yet)")
+            return
+        target = a.target
+        # 优先按索引删除
+        try:
+            idx = int(target) - 1
+            if 0 <= idx < len(patterns):
+                removed = patterns.pop(idx)
+                mf.write_text(json.dumps(mem, ensure_ascii=False, indent=2), "utf-8")
+                print(f"deleted: [{removed.get('pattern_type', '?')}] {removed.get('description', '?')[:50]}")
+                return
+        except ValueError:
+            pass
+        # 按类型删除（删除该类型所有 pattern）
+        before = len(patterns)
+        patterns[:] = [p for p in patterns if p.get("pattern_type") != target]
+        after = len(patterns)
+        if before != after:
+            mf.write_text(json.dumps(mem, ensure_ascii=False, indent=2), "utf-8")
+            print(f"deleted {before - after} pattern(s) of type: {target}")
+        else:
+            print(f"no pattern found with type: {target}")
 
 def main():
     p = argparse.ArgumentParser()
@@ -380,10 +442,13 @@ def main():
     p7.add_argument("--save-metrics", action="store_true")
     p7.set_defaults(func=cmd_review)
     p8 = s.add_parser("project-memory")
-    p8.add_argument("action", choices=["add-pattern"])
-    p8.add_argument("--pattern-type", required=True)
-    p8.add_argument("--description", required=True)
+    p8.add_argument("action", choices=["add-pattern", "list-patterns", "search-pattern", "delete-pattern"],
+                    help="add-pattern / list-patterns / search-pattern / delete-pattern")
+    p8.add_argument("--pattern-type", default=None, help="模式类型（add 必填，search/delete 可选）")
+    p8.add_argument("--description", default=None, help="模式描述（add 必填）")
     p8.add_argument("--importance", default="medium")
+    p8.add_argument("--keyword", default=None, help="搜索关键词（search-pattern 用）")
+    p8.add_argument("--target", default=None, help="删除目标：索引数字或类型名（delete-pattern 用）")
     p8.set_defaults(func=cmd_memory)
     a = p.parse_args()
     if hasattr(a, "func"):
